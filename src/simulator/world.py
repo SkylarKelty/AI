@@ -47,7 +47,7 @@ class World(QtGui.QFrame):
 		self.test = Actor()
 		self.test.setColour(0xCF29B0)
 		self.addActor(self.test, self.findEmptyCell())
-		self.addActor(Block(), (0, 5))
+		self.addActor(Block(), (12, 0))
 
 	# Is a given cell empty?
 	def isEmptyCell(self, x, y):

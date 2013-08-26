@@ -2,7 +2,7 @@ from PyQt4 import QtGui
 
 class Actor(object):
 	# Can this actor go through walls?
-	ignoreBlocking = False
+	ignoreBlocking = True
 
 	# Init
 	def __init__(self):
