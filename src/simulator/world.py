@@ -13,17 +13,16 @@ class World(QtGui.QFrame):
 	tick_rate = 60
 
 	# 
-	# A tick - your main entry point to the world.
-	# This should be overridden, and will be called once per (tick rate)/second
+	# Setup- your main entry point to the world.
 	# 
-	def tick(self):
-		for o in self.objects:
-			if hasattr(o, "tick"):
-				self.cells[o.x][o.y].remove(o)
-				o.tick()
-				if not self.isEmptyCell(o.x, o.y):
-					self.collide(o)
-				self.cells[o.x][o.y].append(o)
+	def setup(self):
+		# Create a bunch of blocks
+		for i in range(30):
+			cell = self.randomCell(True)
+			if cell:
+				block = Block()
+				self.addActor(block, cell)
+				
 
 	# --------------------------------
 	# You shouldnt need to change anything below this line
@@ -45,12 +44,20 @@ class World(QtGui.QFrame):
 		if World.show_grid:
 			self.grid()
 
-		# Create a bunch of blocks
-		for i in range(30):
-			cell = self.randomCell(True)
-			if cell:
-				block = Block()
-				self.addActor(block, cell)
+		# Setup
+		self.setup()
+
+	# 
+	# A tick will be called once per (tick rate)/second
+	# 
+	def tick(self):
+		for o in self.objects:
+			if hasattr(o, "tick"):
+				self.cells[o.x][o.y].remove(o)
+				o.tick()
+				if not self.isEmptyCell(o.x, o.y):
+					self.collide(o)
+				self.cells[o.x][o.y].append(o)
 
 	# Is a given cell empty?
 	def isEmptyCell(self, x, y):
