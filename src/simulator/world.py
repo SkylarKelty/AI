@@ -113,6 +113,12 @@ class World(QtGui.QFrame):
 			actor.setPos(pos[0], pos[1])
 			self.cells[pos[0]][pos[1]].append(actor)
 
+	# Set the colour of a cell
+	def setBlockColour(self, cell, colour):
+		blk = Block(colour)
+		blk.setPos(cell[0], cell[1])
+		self.renderables.append(blk)
+
 	# Collide event
 	def collide(self, obj):
 		for o in self.cells[obj.x][obj.y]:
