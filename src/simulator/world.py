@@ -1,7 +1,7 @@
 import random
 from PyQt4 import QtCore, QtGui
 from src.gfx.grid import Grid
-from src.gfx.actor import Actor
+from src.actors.Bot import Bot
 from src.gfx.block import Block
 
 class World(QtGui.QFrame):
@@ -23,7 +23,7 @@ class World(QtGui.QFrame):
 				self.addActor(Block(), cell)
 
 		# Create an actor
-		barry = Actor("Barry")
+		barry = Bot("Barry")
 		self.addActor(barry, self.findEmptyCell())
 		barry.moveTo(self.randomCell(True))
 
