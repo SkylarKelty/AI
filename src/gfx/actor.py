@@ -4,7 +4,6 @@ class Actor(object):
 	# Init
 	def __init__(self):
 		self.setColour(0x000000)
-		self.setPos(0, 0)
 
 	# 
 	# A tick - your main entry point to the world.
@@ -34,40 +33,45 @@ class Actor(object):
 
 	# Set our position
 	def setPos(self, x, y):
-		self.x = x
-		self.y = y
+		e = False
+		if x > self.maxdist:
+			x = self.maxdist
+			e = True
+
+		if x < 0:
+			x = 0
+			e = True
+
+		if y > self.maxdist:
+			y = self.maxdist
+			e = True
+
+		if y < 0:
+			y = 0
+			e = True
+
+		if self.world.isEmptyCell(x, y):
+			self.x = x
+			self.y = y
+			return e
+
+		return False
 
 	# Move right
 	def moveRight(self):
-		self.x = self.x + 1
-		if self.x > self.maxdist:
-			self.x = self.maxdist
-			return False
-		return True
+		return self.setPos(self.x + 1, self.y)
 
 	# Move left
 	def moveLeft(self):
-		self.x = self.x - 1
-		if self.x < 0:
-			self.x = 0
-			return False
-		return True
+		return self.setPos(self.x - 1, self.y)
 
 	# Move up
 	def moveUp(self):
-		self.y = self.y - 1
-		if self.y < 0:
-			self.y = 0
-			return False
-		return True
+		return self.setPos(self.x, self.y - 1)
 
 	# Move down
 	def moveDown(self):
-		self.y = self.y + 1
-		if self.y > self.maxdist:
-			self.y = self.maxdist
-			return False
-		return True
+		return self.setPos(self.x, self.y + 1)
 
 	# Setup
 	def setup(self, world):

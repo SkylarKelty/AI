@@ -16,7 +16,11 @@ class World(QtGui.QFrame):
 	# 
 	def tick(self):
 		for o in self.objects:
-			o.tick()
+			if hasattr(o, "tick"):
+				self.cells[o.x][o.y] = None
+				o.tick()
+				self.cells[o.x][o.y] = o
+		self.addActor(Actor(), self.findEmptyCell())
 
 	# --------------------------------
 	# You shouldnt need to change anything below this line
@@ -44,11 +48,15 @@ class World(QtGui.QFrame):
 		self.test.setColour(0xCF29B0)
 		self.addActor(self.test, self.findEmptyCell())
 
+	# Is a given cell empty?
+	def isEmptyCell(self, x, y):
+		return self.cells[x][y] is None
+
 	# Find an empty cell
 	def findEmptyCell(self):
 		for y in range(World.grid_density):
 			for x in range(World.grid_density):
-				if self.cells[x][y] is None:
+				if self.isEmptyCell(x, y):
 					return (x, y)
 		return None
 
@@ -60,13 +68,13 @@ class World(QtGui.QFrame):
 	# Show a grid
 	def grid(self):
 		grid = Grid(World.grid_density)
-		self.addActor(grid, None)
+		self.objects.append(grid)
 
 	# Add an actor
 	def addActor(self, actor, pos):
-		actor.setup(self)
-		self.objects.append(actor)
 		if pos != None:
+			actor.setup(self)
+			self.objects.append(actor)
 			actor.setPos(pos[0], pos[1])
 			self.cells[pos[0]][pos[1]] = actor
 

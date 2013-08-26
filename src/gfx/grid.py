@@ -4,11 +4,6 @@ class Grid(object):
 	def __init__(self, density):
 		self.density = density
 		self.colour = QtGui.QColor(0xADE398)
-
-	def tick(self):
-		pass
-
-	def setup(self, world):
 		self.alive = True
 
 	def render(self, world):
