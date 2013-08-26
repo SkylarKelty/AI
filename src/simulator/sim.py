@@ -24,6 +24,7 @@ def main():
 	world = World(w)
 
 	# Show the window
+	w.setCentralWidget(world)
 	w.show()
 
 	# Run the world
