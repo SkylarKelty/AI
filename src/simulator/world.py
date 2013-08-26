@@ -26,9 +26,14 @@ class World(QtGui.QFrame):
 	def __init__(self, parent):
 		QtGui.QFrame.__init__(self, parent)
 		self.objects = []
+
+		# Setup our cell array
 		self.cells = []
 		for x in range(World.grid_density):
-			self.cells.append([])
+			x = []
+			for y in range(World.grid_density):
+				x.append(None)
+			self.cells.append(x)
 
 		if World.show_grid:
 			self.grid()
@@ -37,7 +42,15 @@ class World(QtGui.QFrame):
 		self.direction = 1
 		self.test = Actor()
 		self.test.setColour(0xCF29B0)
-		self.addActor(self.test)
+		self.addActor(self.test, self.findEmptyCell())
+
+	# Find an empty cell
+	def findEmptyCell(self):
+		for y in range(World.grid_density):
+			for x in range(World.grid_density):
+				if self.cells[x][y] is None:
+					return (x, y)
+		return None
 
 	# Run the sim
 	def run(self):
@@ -47,12 +60,15 @@ class World(QtGui.QFrame):
 	# Show a grid
 	def grid(self):
 		grid = Grid(World.grid_density)
-		self.addActor(grid)
+		self.addActor(grid, None)
 
 	# Add an actor
-	def addActor(self, actor):
+	def addActor(self, actor, pos):
 		actor.setup(self)
 		self.objects.append(actor)
+		if pos != None:
+			actor.setPos(pos[0], pos[1])
+			self.cells[pos[0]][pos[1]] = actor
 
 	# Clean up objects post-tick
 	def cleanupWorld(self):
