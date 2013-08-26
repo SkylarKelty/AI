@@ -1,6 +1,7 @@
 from PyQt4 import QtCore, QtGui
 from src.gfx.grid import Grid
 from src.gfx.actor import Actor
+from src.gfx.block import Block
 
 class World(QtGui.QFrame):
 	# Should we render the grid?
@@ -46,6 +47,7 @@ class World(QtGui.QFrame):
 		self.test = Actor()
 		self.test.setColour(0xCF29B0)
 		self.addActor(self.test, self.findEmptyCell())
+		self.addActor(Block(), (0, 5))
 
 	# Is a given cell empty?
 	def isEmptyCell(self, x, y):
