@@ -1,3 +1,5 @@
+import random
+
 #
 # Pathfinding class, avoids other objects
 #
@@ -36,6 +38,7 @@ class Path(object):
 	# Find a path from the supplied cell
 	def getPath(self, src):
 		path = []
+		self.exclusions = {}
 		last = src
 		while last and last[0] != self.destination[0] or last[1] != self.destination[1]:
 			new = self.getBest(last)
@@ -44,6 +47,7 @@ class Path(object):
 			if new != self.destination:
 				self.world.setBlockColour(new, 0xCCCCCC)
 			path.append(new)
+			self.exclusions[new] = True
 			last = new
 		return path
 
@@ -55,6 +59,7 @@ class Path(object):
 
 		# Choose our best option
 		chosen = None
+		options = []
 		for tX in range(x - 1, x + 2):
 			if tX < 0 or tX > self.maxG:
 				continue
@@ -65,14 +70,21 @@ class Path(object):
 				if tY == 0 and tX == 0:
 					continue
 
-				# Ignore this if we are blocked
-				if not self.world.isEmptyCell(tX, tY):
+				# Ignore this if we are blocked or in exclusions
+				if not self.world.isEmptyCell(tX, tY) or (tX, tY) in self.exclusions:
 					continue
+
+				options.append((tX, tY))
 
 				w = self.weight((tX, tY), self.destination)
 				if mW == -1 or w < mW:
 					chosen = (tX, tY)
 					mW = w
+
+		# Choose something random if we failed
+		if not chosen and len(options) > 0:
+			# Go through every cell thats not in the exclusions list
+			chosen = random.choice(options)
 
 		# Finished!
 		return chosen
