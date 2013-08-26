@@ -22,6 +22,7 @@ class World(QtGui.QFrame):
 			if cell:
 				block = Block()
 				self.addActor(block, cell)
+
 		# Create an actor
 		barry = Actor("Barry")
 		self.addActor(block, self.findEmptyCell())
@@ -35,6 +36,7 @@ class World(QtGui.QFrame):
 	# Main Init
 	def __init__(self, parent):
 		QtGui.QFrame.__init__(self, parent)
+		self.renderables = []
 		self.objects = []
 
 		# Setup our cell array
@@ -101,7 +103,7 @@ class World(QtGui.QFrame):
 	# Show a grid
 	def grid(self):
 		grid = Grid(World.grid_density)
-		self.objects.append(grid)
+		self.renderables.append(grid)
 
 	# Add an actor
 	def addActor(self, actor, pos):
@@ -127,6 +129,8 @@ class World(QtGui.QFrame):
 
 	# Our paint event
 	def paintEvent(self, event):
+		for o in self.renderables:
+			o.render(self)
 		for o in self.objects:
 			o.render(self)
 				
