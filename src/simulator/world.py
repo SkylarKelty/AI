@@ -1,3 +1,4 @@
+import random
 from PyQt4 import QtCore, QtGui
 from src.gfx.grid import Grid
 from src.gfx.actor import Actor
@@ -44,11 +45,10 @@ class World(QtGui.QFrame):
 		if World.show_grid:
 			self.grid()
 
-		# Test object
-		self.direction = 1
-		self.test = Actor("A Bot", 0xCF29B0)
-		self.addActor(self.test, self.findEmptyCell())
-		self.addActor(Block(), (12, 0))
+		# Create a bunch of blocks
+		block = Block()
+		self.addActor(block, (12, 12))
+		block.moveTo(24, 24)
 
 	# Is a given cell empty?
 	def isEmptyCell(self, x, y):
@@ -61,6 +61,24 @@ class World(QtGui.QFrame):
 				if self.isEmptyCell(x, y):
 					return (x, y)
 		return None
+
+	# Returns a random cell address
+	def randomCell(self, empty = False):
+		if empty:
+			if self.findEmptyCell() == None:
+				return None
+			# Get all the empty cells
+			empties = []
+			for y in range(World.grid_density):
+				for x in range(World.grid_density):
+					if self.isEmptyCell(x, y):
+						empties.append((x, y))
+			return random.choice(empties)
+		else:
+			# Grab a random cell
+			x = random.randint(0, World.grid_density)
+			y = random.randint(0, World.grid_density)
+			return (x, y)
 
 	# Run the sim
 	def run(self):

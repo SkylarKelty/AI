@@ -1,39 +1,30 @@
 from PyQt4 import QtGui
 
 class Actor(object):
-	# Can this actor go through walls?
-	ignoreBlocking = True
 
 	# Init
 	def __init__(self, name, colour):
 		self.name = name
 		self.setColour(colour)
+		self.setSpeed(1)
+
+		# Can this actor go through other actors?
+		self.ignoreBlocking = False
 
 	# 
 	# A tick - your main entry point to the world.
 	# This should be overridden, and will be called once per (World.tick rate)/second
 	# 
 	def tick(self):
-		if self.direction == 1:
-			if not self.moveRight():
-				self.direction = 2
-				return
-		if self.direction == 2:
-			if not self.moveDown():
-				self.direction = 3
-				return
-		if self.direction == 3:
-			if not self.moveLeft():
-				self.direction = 4
-				return
-		if self.direction == 4:
-			if not self.moveUp():
-				self.direction = 1
-				return
+		pass
 
 	# Set our colour
 	def setColour(self, colour):
 		self.colour = QtGui.QColor(colour)
+
+	# Set our speed (how many blocks can we move per second?)
+	def setSpeed(self, speed):
+		self.speed = speed
 
 	# Set our position
 	def setPos(self, x, y):
@@ -60,6 +51,10 @@ class Actor(object):
 			return not e
 
 		return False
+
+	# Set a target location that we should move too
+	def moveTo(self, x, y):
+		pass
 
 	# Called when we collide with something
 	def onCollision(self, obj):
