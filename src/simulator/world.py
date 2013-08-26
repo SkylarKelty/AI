@@ -1,5 +1,6 @@
 from PyQt4 import QtCore, QtGui
 from src.gfx.grid import Grid
+from src.gfx.actor import Actor
 
 class World(QtGui.QFrame):
 	# Should we render the grid?
@@ -14,7 +15,14 @@ class World(QtGui.QFrame):
 	# This should be overridden, and will be called once per (tick rate)/second
 	# 
 	def tick(self):
-		pass
+		if self.direction == 1:
+			if not self.test.moveRight():
+				self.direction = 2
+				return
+		if self.direction == 2:
+			if not self.test.moveLeft():
+				self.direction = 1
+				return
 
 	# --------------------------------
 	# You shouldnt need to change anything below this line
@@ -28,6 +36,12 @@ class World(QtGui.QFrame):
 		if World.show_grid:
 			self.grid()
 
+		# Test object
+		self.direction = 1
+		self.test = Actor()
+		self.test.setColour(0xCF29B0)
+		self.addActor(self.test)
+
 	# Run the sim
 	def run(self):
 		self.timer = QtCore.QBasicTimer()
@@ -36,7 +50,12 @@ class World(QtGui.QFrame):
 	# Show a grid
 	def grid(self):
 		grid = Grid(World.grid_density)
-		self.objects.append(grid)
+		self.addActor(grid)
+
+	# Add an actor
+	def addActor(self, actor):
+		actor.setup(self)
+		self.objects.append(actor)
 
 	# Clean up objects post-tick
 	def cleanupWorld(self):

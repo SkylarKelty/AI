@@ -3,13 +3,16 @@ from PyQt4 import QtGui
 class Grid(object):
 	def __init__(self, density):
 		self.density = density
-		self.color = QtGui.QColor(0xADE398)
+		self.colour = QtGui.QColor(0xADE398)
+
+	def setup(self, world):
+		pass
 
 	def render(self, world):
 		painter = QtGui.QPainter(world)
 		rect = world.contentsRect()
 
-		painter.setPen(self.color)
+		painter.setPen(self.colour)
 
 		xSpacing = rect.width() / self.density
 		ySpacing = rect.height() / self.density
