@@ -46,9 +46,11 @@ class World(QtGui.QFrame):
 			self.grid()
 
 		# Create a bunch of blocks
-		block = Block()
-		self.addActor(block, (12, 12))
-		block.moveTo(24, 24)
+		for i in range(30):
+			cell = self.randomCell(True)
+			if cell:
+				block = Block()
+				self.addActor(block, cell)
 
 	# Is a given cell empty?
 	def isEmptyCell(self, x, y):
