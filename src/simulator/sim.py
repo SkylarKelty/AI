@@ -1,5 +1,6 @@
 import sys
 from PyQt4 import QtCore, QtGui
+from world import World
 
 class Window(QtGui.QMainWindow):
 	def __init__(self):
@@ -18,5 +19,15 @@ def main():
 	app = QtGui.QApplication(sys.argv)
 	w = Window()
 	w.center()
+
+	# Setup the world
+	world = World()
+	world.setup(w)
+
+	# Show the window
 	w.show()
+
+	# Run the world
+	world.run()
+
 	sys.exit(app.exec_())
