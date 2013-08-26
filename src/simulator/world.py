@@ -19,11 +19,11 @@ class World(QtGui.QFrame):
 	# --------------------------------
 	# You shouldnt need to change anything below this line
 	# --------------------------------
-
-	# Setup the world
-	def setup(self, window):
+	
+	# Main Init
+	def __init__(self, parent):
+		QtGui.QFrame.__init__(self, parent)
 		self.objects = []
-		self.window = window
 
 		if World.show_grid:
 			self.grid()
@@ -33,12 +33,29 @@ class World(QtGui.QFrame):
 		self.timer = QtCore.QBasicTimer()
 		self.timer.start(World.tick_rate, self)
 
+	# Show a grid
+	def grid(self):
+		grid = Grid(World.grid_density)
+		self.objects.append(grid)
+
+	# Clean up objects post-tick
+	def cleanupWorld(self):
+		newObj = []
+		for o in self.objects:
+			if o:
+				newObj.append(o)
+		self.objects = newObj
+
+	# Our paint event
+	def paintEvent(self, event):
+		for o in self.objects:
+			o.render(self)
+				
+	# Called by the timer
 	def timerEvent(self, event):
 		if event.timerId() == self.timer.timerId():
 			self.tick()
+			self.cleanupWorld()
+			self.update()
 		else:
 			QtGui.QFrame.timerEvent(self, event)
-
-	# Show a grid
-	def grid(self):
-		self.objects.append(Grid(World.grid_density))

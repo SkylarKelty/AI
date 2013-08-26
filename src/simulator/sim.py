@@ -21,8 +21,7 @@ def main():
 	w.center()
 
 	# Setup the world
-	world = World()
-	world.setup(w)
+	world = World(w)
 
 	# Show the window
 	w.show()
