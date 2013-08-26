@@ -52,6 +52,8 @@ class Path(object):
 		x = src[0]
 		y = src[1]
 		mW = -1
+
+		# Choose our best option
 		chosen = None
 		for tX in range(x - 1, x + 2):
 			if tX < 0 or tX > self.maxG:
@@ -63,10 +65,16 @@ class Path(object):
 				if tY == 0 and tX == 0:
 					continue
 
+				# Ignore this if we are blocked
+				if not self.world.isEmptyCell(tX, tY):
+					continue
+
 				w = self.weight((tX, tY), self.destination)
 				if mW == -1 or w < mW:
 					chosen = (tX, tY)
 					mW = w
+
+		# Finished!
 		return chosen
 
 	# Return the weight of the given node
