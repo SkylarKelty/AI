@@ -18,6 +18,19 @@ class Actor(object):
 	def tick(self):
 		pass
 
+
+	# --------------------------------
+	# You shouldnt need to change anything below this line
+	# --------------------------------
+
+	# Setup
+	def setup(self, world):
+		self.world = world
+		self.grid_density = world.grid_density
+		self.maxdist = world.grid_density - 1
+		self.direction = 1
+		self.alive = True
+
 	# Set our colour
 	def setColour(self, colour):
 		self.colour = QtGui.QColor(colour)
@@ -55,7 +68,7 @@ class Actor(object):
 	# Set a target location that we should move too
 	def moveTo(self, cell):
 		print "%s is moving to (%i, %i)" % (self.name, cell[0], cell[1])
-		pass
+		self.world.setBlockColour(cell, 0x9BFA78)
 
 	# Called when we collide with something
 	def onCollision(self, obj):
@@ -76,14 +89,6 @@ class Actor(object):
 	# Move down
 	def moveDown(self):
 		return self.setPos(self.x, self.y + 1)
-
-	# Setup
-	def setup(self, world):
-		self.world = world
-		self.grid_density = world.grid_density
-		self.maxdist = world.grid_density - 1
-		self.direction = 1
-		self.alive = True
 
 	# Render
 	def render(self, world):

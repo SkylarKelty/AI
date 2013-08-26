@@ -20,12 +20,11 @@ class World(QtGui.QFrame):
 		for i in range(30):
 			cell = self.randomCell(True)
 			if cell:
-				block = Block()
-				self.addActor(block, cell)
+				self.addActor(Block(), cell)
 
 		# Create an actor
 		barry = Actor("Barry")
-		self.addActor(block, self.findEmptyCell())
+		self.addActor(barry, self.findEmptyCell())
 		barry.moveTo(self.randomCell(True))
 
 
@@ -116,6 +115,7 @@ class World(QtGui.QFrame):
 	# Set the colour of a cell
 	def setBlockColour(self, cell, colour):
 		blk = Block(colour)
+		blk.setup(self)
 		blk.setPos(cell[0], cell[1])
 		self.renderables.append(blk)
 
