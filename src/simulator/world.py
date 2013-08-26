@@ -20,7 +20,15 @@ class World(QtGui.QFrame):
 				self.direction = 2
 				return
 		if self.direction == 2:
+			if not self.test.moveDown():
+				self.direction = 3
+				return
+		if self.direction == 3:
 			if not self.test.moveLeft():
+				self.direction = 4
+				return
+		if self.direction == 4:
+			if not self.test.moveUp():
 				self.direction = 1
 				return
 

@@ -31,6 +31,22 @@ class Actor(object):
 			return False
 		return True
 
+	# Move up
+	def moveUp(self):
+		self.y = self.y - 1
+		if self.y < 0:
+			self.y = 0
+			return False
+		return True
+
+	# Move down
+	def moveDown(self):
+		self.y = self.y + 1
+		if self.y > self.maxdist:
+			self.y = self.maxdist
+			return False
+		return True
+
 	# Setup
 	def setup(self, world):
 		self.grid_density = world.grid_density
