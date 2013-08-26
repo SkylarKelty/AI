@@ -13,4 +13,4 @@ class Bot(Actor):
 	# This should be overridden, and will be called once per (World.tick rate)/second
 	# 
 	def tick(self):
-		pass # Do nothing
+		Actor.tick(self)

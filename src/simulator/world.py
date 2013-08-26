@@ -10,7 +10,7 @@ class World(QtGui.QFrame):
 	# How dense is the world grid?
 	grid_density = 50
 	# How often should we tick per second?
-	tick_rate = 60
+	tick_rate = 10
 
 	# 
 	# Setup- your main entry point to the world.

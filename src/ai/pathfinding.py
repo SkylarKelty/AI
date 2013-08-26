@@ -44,8 +44,6 @@ class Path(object):
 			new = self.getBest(last)
 			if new == last or not new:
 				break
-			if new != self.destination:
-				self.world.setBlockColour(new, 0xCCCCCC)
 			path.append(new)
 			self.exclusions[new] = True
 			last = new
