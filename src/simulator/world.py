@@ -22,7 +22,11 @@ class World(QtGui.QFrame):
 			if cell:
 				block = Block()
 				self.addActor(block, cell)
-				
+		# Create an actor
+		barry = Actor("Barry")
+		self.addActor(block, self.findEmptyCell())
+		barry.moveTo(self.randomCell(True))
+
 
 	# --------------------------------
 	# You shouldnt need to change anything below this line

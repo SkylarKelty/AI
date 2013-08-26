@@ -3,7 +3,7 @@ from PyQt4 import QtGui
 class Actor(object):
 
 	# Init
-	def __init__(self, name, colour):
+	def __init__(self, name, colour = 0x000000):
 		self.name = name
 		self.setColour(colour)
 		self.setSpeed(1)
@@ -53,7 +53,8 @@ class Actor(object):
 		return False
 
 	# Set a target location that we should move too
-	def moveTo(self, x, y):
+	def moveTo(self, cell):
+		print "%s is moving to (%i, %i)" % (self.name, cell[0], cell[1])
 		pass
 
 	# Called when we collide with something
