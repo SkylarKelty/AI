@@ -20,7 +20,6 @@ class World(QtGui.QFrame):
 				self.cells[o.x][o.y] = None
 				o.tick()
 				self.cells[o.x][o.y] = o
-		self.addActor(Actor(), self.findEmptyCell())
 
 	# --------------------------------
 	# You shouldnt need to change anything below this line

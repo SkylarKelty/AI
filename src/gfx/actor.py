@@ -1,6 +1,9 @@
 from PyQt4 import QtGui
 
 class Actor(object):
+	# Can this actor go through walls?
+	ignoreBlocking = False
+
 	# Init
 	def __init__(self):
 		self.setColour(0x000000)
@@ -50,10 +53,10 @@ class Actor(object):
 			y = 0
 			e = True
 
-		if self.world.isEmptyCell(x, y):
+		if self.world.isEmptyCell(x, y) or self.ignoreBlocking:
 			self.x = x
 			self.y = y
-			return e
+			return not e
 
 		return False
 
