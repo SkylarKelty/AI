@@ -8,6 +8,8 @@ class Actor(object):
 		self.name = name
 		self.setColour(colour)
 		self.setSpeed(1)
+		self.x = 0
+		self.y = 0
 
 		# Can this actor go through other actors?
 		self.ignoreBlocking = False

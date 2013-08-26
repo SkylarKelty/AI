@@ -35,14 +35,23 @@ class Path(object):
 
 	# Find a path from the supplied cell
 	def getPath(self, src):
-		best = self.getBest(src)
-		self.world.setBlockColour(best, 0xCCCCCC)
+		path = []
+		last = src
+		while last and last[0] != self.destination[0] or last[1] != self.destination[1]:
+			new = self.getBest(last)
+			if new == last or not new:
+				break
+			if new != self.destination:
+				self.world.setBlockColour(new, 0xCCCCCC)
+			path.append(new)
+			last = new
+		return path
 
 	# Find the best node(s) we can get to from the current cell
 	def getBest(self, src):
 		x = src[0]
 		y = src[1]
-		mW = 0
+		mW = -1
 		chosen = None
 		for tX in range(x - 1, x + 2):
 			if tX < 0 or tX > self.maxG:
@@ -54,11 +63,14 @@ class Path(object):
 				if tY == 0 and tX == 0:
 					continue
 
-			w = self.weight(src, (tX, tY))
-			if w > mW:
-				chosen = (tX, tY)
+				w = self.weight((tX, tY), self.destination)
+				if mW == -1 or w < mW:
+					chosen = (tX, tY)
+					mW = w
 		return chosen
 
 	# Return the weight of the given node
 	def weight(self, src, dest):
-		return abs((src[0] + src[1]) - (dest[0] + dest[1]))
+		xWeight = abs(src[0] - dest[0])
+		yWeight = abs(src[1] - dest[1])
+		return xWeight + yWeight
