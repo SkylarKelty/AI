@@ -5,7 +5,7 @@ class World(QtGui.QFrame):
 	# Should we render the grid?
 	show_grid = True
 	# How dense is the world grid?
-	grid_density = 10
+	grid_density = 50
 	# How often should be tick per second?
 	tick_rate = 120
 
