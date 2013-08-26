@@ -44,8 +44,7 @@ class World(QtGui.QFrame):
 
 		# Test object
 		self.direction = 1
-		self.test = Actor()
-		self.test.setColour(0xCF29B0)
+		self.test = Actor("A Bot", 0xCF29B0)
 		self.addActor(self.test, self.findEmptyCell())
 		self.addActor(Block(), (12, 0))
 
@@ -78,6 +77,11 @@ class World(QtGui.QFrame):
 			self.objects.append(actor)
 			actor.setPos(pos[0], pos[1])
 			self.cells[pos[0]][pos[1]] = actor
+
+	# Collide event
+	def collide(self, obj):
+		for o in self.cells[obj.x][obj.y]:
+			o.onCollision(obj)
 
 	# Clean up objects post-tick
 	def cleanupWorld(self):

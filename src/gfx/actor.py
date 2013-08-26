@@ -5,8 +5,9 @@ class Actor(object):
 	ignoreBlocking = True
 
 	# Init
-	def __init__(self):
-		self.setColour(0x000000)
+	def __init__(self, name, colour):
+		self.setColour(colour)
+		self.name = name
 
 	# 
 	# A tick - your main entry point to the world.
@@ -56,9 +57,15 @@ class Actor(object):
 		if self.world.isEmptyCell(x, y) or self.ignoreBlocking:
 			self.x = x
 			self.y = y
+			if not self.world.isEmptyCell(x, y):
+				self.world.collide(self)
 			return not e
 
 		return False
+
+	# Called when we collide with something
+	def onCollision(self, obj):
+		print "%s collided with %s!" % (self.name, obj.name)
 
 	# Move right
 	def moveRight(self):
@@ -105,3 +112,7 @@ class Actor(object):
 	# Delete this Actor
 	def kill(self):
 		self.alive = False
+
+	# Our string
+	def __toString(self):
+		return self.name
