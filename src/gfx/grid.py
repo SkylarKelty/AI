@@ -5,8 +5,11 @@ class Grid(object):
 		self.density = density
 		self.colour = QtGui.QColor(0xADE398)
 
-	def setup(self, world):
+	def tick(self):
 		pass
+
+	def setup(self, world):
+		self.alive = True
 
 	def render(self, world):
 		painter = QtGui.QPainter(world)

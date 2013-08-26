@@ -6,6 +6,28 @@ class Actor(object):
 		self.setColour(0x000000)
 		self.setPos(0, 0)
 
+	# 
+	# A tick - your main entry point to the world.
+	# This should be overridden, and will be called once per (World.tick rate)/second
+	# 
+	def tick(self):
+		if self.direction == 1:
+			if not self.moveRight():
+				self.direction = 2
+				return
+		if self.direction == 2:
+			if not self.moveDown():
+				self.direction = 3
+				return
+		if self.direction == 3:
+			if not self.moveLeft():
+				self.direction = 4
+				return
+		if self.direction == 4:
+			if not self.moveUp():
+				self.direction = 1
+				return
+
 	# Set our colour
 	def setColour(self, colour):
 		self.colour = QtGui.QColor(colour)
@@ -49,8 +71,11 @@ class Actor(object):
 
 	# Setup
 	def setup(self, world):
+		self.world = world
 		self.grid_density = world.grid_density
 		self.maxdist = world.grid_density - 1
+		self.direction = 1
+		self.alive = True
 
 	# Render
 	def render(self, world):
@@ -69,3 +94,7 @@ class Actor(object):
 
 		# Draw
 		painter.fillRect(x + 1, y + 1, sizeX - 2, sizeY - 2, self.colour)
+
+	# Delete this Actor
+	def kill(self):
+		self.alive = False

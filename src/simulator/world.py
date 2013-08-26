@@ -15,22 +15,8 @@ class World(QtGui.QFrame):
 	# This should be overridden, and will be called once per (tick rate)/second
 	# 
 	def tick(self):
-		if self.direction == 1:
-			if not self.test.moveRight():
-				self.direction = 2
-				return
-		if self.direction == 2:
-			if not self.test.moveDown():
-				self.direction = 3
-				return
-		if self.direction == 3:
-			if not self.test.moveLeft():
-				self.direction = 4
-				return
-		if self.direction == 4:
-			if not self.test.moveUp():
-				self.direction = 1
-				return
+		for o in self.objects:
+			o.tick()
 
 	# --------------------------------
 	# You shouldnt need to change anything below this line
@@ -40,6 +26,9 @@ class World(QtGui.QFrame):
 	def __init__(self, parent):
 		QtGui.QFrame.__init__(self, parent)
 		self.objects = []
+		self.cells = []
+		for x in range(World.grid_density):
+			self.cells.append([])
 
 		if World.show_grid:
 			self.grid()
@@ -69,7 +58,7 @@ class World(QtGui.QFrame):
 	def cleanupWorld(self):
 		newObj = []
 		for o in self.objects:
-			if o:
+			if o and o.alive:
 				newObj.append(o)
 		self.objects = newObj
 
