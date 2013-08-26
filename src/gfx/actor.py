@@ -1,4 +1,5 @@
 from PyQt4 import QtGui
+from src.ai.pathfinding import Path
 
 class Actor(object):
 
@@ -69,6 +70,7 @@ class Actor(object):
 	def moveTo(self, cell):
 		print "%s is moving to (%i, %i)" % (self.name, cell[0], cell[1])
 		self.world.setBlockColour(cell, 0x9BFA78)
+		self.path = Path(self, (self.x, self.y), cell)
 
 	# Called when we collide with something
 	def onCollision(self, obj):
