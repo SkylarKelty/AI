@@ -18,9 +18,11 @@ class World(QtGui.QFrame):
 	def tick(self):
 		for o in self.objects:
 			if hasattr(o, "tick"):
-				self.cells[o.x][o.y] = None
+				self.cells[o.x][o.y].remove(o)
 				o.tick()
-				self.cells[o.x][o.y] = o
+				if not self.isEmptyCell(o.x, o.y):
+					self.collide(o)
+				self.cells[o.x][o.y].append(o)
 
 	# --------------------------------
 	# You shouldnt need to change anything below this line
@@ -36,7 +38,7 @@ class World(QtGui.QFrame):
 		for x in range(World.grid_density):
 			x = []
 			for y in range(World.grid_density):
-				x.append(None)
+				x.append([])
 			self.cells.append(x)
 
 		if World.show_grid:
@@ -50,7 +52,7 @@ class World(QtGui.QFrame):
 
 	# Is a given cell empty?
 	def isEmptyCell(self, x, y):
-		return self.cells[x][y] is None
+		return not self.cells[x][y]
 
 	# Find an empty cell
 	def findEmptyCell(self):
@@ -76,12 +78,13 @@ class World(QtGui.QFrame):
 			actor.setup(self)
 			self.objects.append(actor)
 			actor.setPos(pos[0], pos[1])
-			self.cells[pos[0]][pos[1]] = actor
+			self.cells[pos[0]][pos[1]].append(actor)
 
 	# Collide event
 	def collide(self, obj):
 		for o in self.cells[obj.x][obj.y]:
 			o.onCollision(obj)
+			obj.onCollision(o)
 
 	# Clean up objects post-tick
 	def cleanupWorld(self):

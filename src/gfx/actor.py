@@ -6,8 +6,8 @@ class Actor(object):
 
 	# Init
 	def __init__(self, name, colour):
-		self.setColour(colour)
 		self.name = name
+		self.setColour(colour)
 
 	# 
 	# A tick - your main entry point to the world.
@@ -57,8 +57,6 @@ class Actor(object):
 		if self.world.isEmptyCell(x, y) or self.ignoreBlocking:
 			self.x = x
 			self.y = y
-			if not self.world.isEmptyCell(x, y):
-				self.world.collide(self)
 			return not e
 
 		return False
