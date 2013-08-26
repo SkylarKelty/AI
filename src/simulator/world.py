@@ -53,7 +53,7 @@ class World(QtGui.QFrame):
 	# Run the sim
 	def run(self):
 		self.timer = QtCore.QBasicTimer()
-		self.timer.start(World.tick_rate / 60, self)
+		self.timer.start(1000 / World.tick_rate, self)
 
 	# Show a grid
 	def grid(self):
