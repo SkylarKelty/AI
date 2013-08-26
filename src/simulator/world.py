@@ -7,8 +7,8 @@ class World(QtGui.QFrame):
 	show_grid = True
 	# How dense is the world grid?
 	grid_density = 50
-	# How often should be tick per second?
-	tick_rate = 120
+	# How often should we tick per second?
+	tick_rate = 60
 
 	# 
 	# A tick - your main entry point to the world.
@@ -53,7 +53,7 @@ class World(QtGui.QFrame):
 	# Run the sim
 	def run(self):
 		self.timer = QtCore.QBasicTimer()
-		self.timer.start(World.tick_rate, self)
+		self.timer.start(World.tick_rate / 60, self)
 
 	# Show a grid
 	def grid(self):
