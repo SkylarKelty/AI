@@ -63,12 +63,11 @@ class World(QtGui.QFrame):
 	# 
 	def preTick(self, tick):
 		for o in self.objects:
-			if hasattr(o, "tick"):
-				self.cells[o.x][o.y].remove(o)
-				o.tick(tick)
-				if not self.isEmptyCell((o.x, o.y)):
-					self.collide(o)
-				self.cells[o.x][o.y].append(o)
+			self.cells[o.x][o.y].remove(o)
+			o.tick(tick)
+			if not self.isEmptyCell((o.x, o.y)):
+				self.collide(o)
+			self.cells[o.x][o.y].append(o)
 
 	# Is a given cell empty?
 	def isEmptyCell(self, (x, y)):
