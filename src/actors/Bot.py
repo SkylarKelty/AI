@@ -71,7 +71,7 @@ class Bot(Actor):
 		(x2, y2) = (x1, y1 - self.trueY(rect, self.los)) # Base
 
 		# Draw fan
-		for i in range(-(self.fov / 2), (self.fov / 2) + 1):
+		for i in range(-(self.fov / 2), (self.fov / 2) + 1, 5):
 			vec = Vector((x1, y1), (x2, y2))
 			(rx, ry) = vec.rotate(angle + i)
 			intersection = vec.intersectsAt(world, rect)
