@@ -1,5 +1,4 @@
 from PyQt4 import QtGui
-from src.ai.pathfinding import Path
 
 class Actor(object):
 
@@ -10,7 +9,6 @@ class Actor(object):
 		self.setSpeed(1)
 		self.x = 0
 		self.y = 0
-		self.path = None
 
 		# Can this actor go through other actors?
 		self.ignoreBlocking = False
@@ -20,15 +18,7 @@ class Actor(object):
 	# This should be overridden, and will be called once per (World.tick rate)/second
 	# 
 	def tick(self, tick):
-		if self.path:
-			self.path.setSource((self.x, self.y))
-			self.path.update()
-			node = self.path.next()
-			if node:
-				self.setPos((node[0], node[1]))
-			else:
-				self.path = None
-				self.moveTo(self.world.randomCell(True))
+		pass
 
 
 	# --------------------------------
@@ -76,11 +66,6 @@ class Actor(object):
 			return not e
 
 		return False
-
-	# Set a target location that we should move too
-	def moveTo(self, cell):
-		print "%s is moving to (%i, %i)" % (self.name, cell[0], cell[1])
-		self.path = Path(self.world, (self.x, self.y), cell)
 
 	# Called when we collide with something
 	def onCollision(self, obj):

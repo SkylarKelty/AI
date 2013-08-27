@@ -1,16 +1,33 @@
 from src.gfx.actor import Actor
+from src.ai.pathfinding import Path
 
 #
 # A simple bot
 #
 class Bot(Actor):
 
+	#
 	# Init
+	# 
 	def __init__(self, name, colour = 0x000000):
 		Actor.__init__(self, name, colour)
+		self.path = None
+
 	# 
 	# A tick - your main entry point to the world.
 	# This should be overridden, and will be called once per (World.tick rate)/second
 	# 
 	def tick(self, tick):
-		Actor.tick(self, tick)
+		if self.path:
+			self.path.setSource((self.x, self.y))
+			self.path.update()
+			node = self.path.next()
+			if node:
+				self.setPos((node[0], node[1]))
+			else:
+				self.path = None
+				self.moveTo(self.world.randomCell(True))
+
+	# Set a target location that we should move too
+	def moveTo(self, cell):
+		self.path = Path(self.world, (self.x, self.y), cell)

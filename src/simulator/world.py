@@ -16,10 +16,7 @@ class World(QtGui.QFrame):
 	# A tick will be called once per (tick rate)/second
 	# 
 	def tick(self, tick):
-		if tick % 50 == 0:
-			b = Bot("Barry %i" % tick)
-			self.addActor(b, self.findEmptyCell())
-			b.moveTo(self.randomCell(True))
+		pass
 
 	# 
 	# Setup- your first entry point to the world.
