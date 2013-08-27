@@ -60,7 +60,6 @@ class Bot(Actor):
 	# Render our fov
 	#
 	def renderFOV(self, world):
-		self.direction = (1, 0)
 		painter = QtGui.QPainter(world)
 		rect = world.contentsRect()
 		painter.setPen(QtGui.QColor(0x00CC00))

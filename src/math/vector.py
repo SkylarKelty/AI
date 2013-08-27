@@ -23,14 +23,14 @@ class Vector(object):
 		x_origin = float(x_origin)
 		y_origin = float(y_origin)
 
-		angle = angle * (math.pi / 180)
+		angle = angle * (math.pi / 180.0)
 		s = math.sin(angle)
 		c = math.cos(angle)
 
 		dx = x - x_origin
 		dy = y - y_origin
 		px = c * dx - s * dy + x_origin
-		py = s * dx + c * dy + x_origin
+		py = s * dx + c * dy + y_origin
 
 		self.dest = (px, py)
 		return self.dest
