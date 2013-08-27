@@ -22,7 +22,7 @@ class World(QtGui.QFrame):
 			b.moveTo(self.randomCell(True))
 
 	# 
-	# Setup- your main entry point to the world.
+	# Setup- your first entry point to the world.
 	# 
 	def setup(self):
 		# Create a bunch of blocks
@@ -41,7 +41,9 @@ class World(QtGui.QFrame):
 	# You shouldnt need to change anything below this line
 	# --------------------------------
 	
+	#
 	# Main Init
+	#
 	def __init__(self, parent):
 		QtGui.QFrame.__init__(self, parent)
 		self.renderables = []
@@ -72,11 +74,16 @@ class World(QtGui.QFrame):
 				self.collide(o)
 			self.cells[o.x][o.y].append(o)
 
+	#
 	# Is a given cell empty?
+	# 
 	def isEmptyCell(self, (x, y)):
 		return not self.cells[x][y]
 
+	#
 	# Find an empty cell
+	# This is a more efficient version of randomCell(True)
+	#
 	def findEmptyCell(self):
 		for y in range(World.grid_density):
 			for x in range(World.grid_density):
@@ -84,7 +91,9 @@ class World(QtGui.QFrame):
 					return (x, y)
 		return None
 
-	# Returns a random cell address
+	#
+	# Returns a random cell address that is, optionally, empty
+	#
 	def randomCell(self, empty = False):
 		if empty:
 			if self.findEmptyCell() == None:
@@ -102,18 +111,24 @@ class World(QtGui.QFrame):
 			y = random.randint(0, World.grid_density)
 			return (x, y)
 
+	#
 	# Run the sim
+	#
 	def run(self):
 		self.ticks = 0
 		self.timer = QtCore.QBasicTimer()
 		self.timer.start(1000 / World.tick_rate, self)
 
+	#
 	# Show a grid
+	#
 	def grid(self):
 		grid = Grid(World.grid_density)
 		self.renderables.append(grid)
 
+	#
 	# Add an actor
+	#
 	def addActor(self, actor, pos):
 		if pos != None:
 			actor.setup(self)
@@ -121,20 +136,26 @@ class World(QtGui.QFrame):
 			actor.setPos((pos[0], pos[1]))
 			self.cells[pos[0]][pos[1]].append(actor)
 
+	#
 	# Set the colour of a cell
+	#
 	def setBlockColour(self, (x, y), colour):
 		blk = Block(colour)
 		blk.setup(self)
 		blk.setPos((x, y))
 		self.renderables.append(blk)
 
+	#
 	# Collide event
+	#
 	def collide(self, obj):
 		for o in self.cells[obj.x][obj.y]:
 			o.onCollision(obj)
 			obj.onCollision(o)
 
+	#
 	# Clean up objects post-tick
+	#
 	def cleanupWorld(self):
 		newObj = []
 		for o in self.objects:
@@ -142,14 +163,18 @@ class World(QtGui.QFrame):
 				newObj.append(o)
 		self.objects = newObj
 
+	#
 	# Our paint event
+	#
 	def paintEvent(self, event):
 		for o in self.renderables:
 			o.render(self)
 		for o in self.objects:
 			o.render(self)
-				
+	
+	#
 	# Called by the timer
+	#
 	def timerEvent(self, event):
 		if event.timerId() == self.timer.timerId():
 			self.preTick(self.ticks)
