@@ -13,6 +13,12 @@ class World(QtGui.QFrame):
 	tick_rate = 10
 
 	# 
+	# A tick will be called once per (tick rate)/second
+	# 
+	def tick(self):
+		pass
+
+	# 
 	# Setup- your main entry point to the world.
 	# 
 	def setup(self):
@@ -53,9 +59,9 @@ class World(QtGui.QFrame):
 		self.setup()
 
 	# 
-	# A tick will be called once per (tick rate)/second
+	# A preTick will be called once per (tick rate)/second
 	# 
-	def tick(self):
+	def preTick(self):
 		for o in self.objects:
 			if hasattr(o, "tick"):
 				self.cells[o.x][o.y].remove(o)
@@ -143,6 +149,7 @@ class World(QtGui.QFrame):
 	# Called by the timer
 	def timerEvent(self, event):
 		if event.timerId() == self.timer.timerId():
+			self.preTick()
 			self.tick()
 			self.cleanupWorld()
 			self.update()
