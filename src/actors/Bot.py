@@ -69,19 +69,12 @@ class Bot(Actor):
 		angle = self.getRotation()
 
 		(x2, y2) = (x1, y1 - self.trueY(rect, self.los)) # Base
-		
-		# Center point
-		vec = Vector((x1, y1), (x2, y2))
-		(x2, y2) = vec.rotate(angle)
-		painter.drawLine(x1, y1, x2, y2)
 
-		# Left point
-		(x2, y2) = vec.rotate(-(self.fov / 2))
-		painter.drawLine(x1, y1, x2, y2)
-
-		# right point
-		(x2, y2) = vec.rotate(self.fov)
-		painter.drawLine(x1, y1, x2, y2)
+		# Draw fan
+		for i in range(-(self.fov / 2), (self.fov / 2) + 1):
+			vec = Vector((x1, y1), (x2, y2))
+			(rx, ry) = vec.rotate(angle + i)
+			painter.drawLine(x1, y1, rx, ry)
 
 	#
 	# Constrains a number to a min/max
