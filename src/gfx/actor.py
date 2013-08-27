@@ -30,6 +30,9 @@ class Actor(object):
 		# Can this actor go through other actors?
 		self.ignoreBlocking = False
 
+		# Does this actor block the LOS of other actors?
+		self.losBlocking = True
+
 	# Setup
 	def setup(self, world):
 		self.world = world

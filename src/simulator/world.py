@@ -22,16 +22,18 @@ class World(QtGui.QFrame):
 	# Setup- your first entry point to the world.
 	# 
 	def setup(self):
+		# Create an actor
+		barry = Bot("Barry")
+		self.addActor(barry, self.findEmptyCell())
+		#barry.moveTo(self.randomCell(True))
+		
+		self.addActor(Block(), (12, 0))
+
 		# Create a bunch of blocks
 		for i in range(30):
 			cell = self.randomCell(True)
 			if cell:
 				self.addActor(Block(), cell)
-
-		# Create an actor
-		barry = Bot("Barry")
-		self.addActor(barry, self.findEmptyCell())
-		barry.moveTo(self.randomCell(True))
 
 
 	# --------------------------------
@@ -155,7 +157,7 @@ class World(QtGui.QFrame):
 	def setBlockColour(self, cell, colour, permanent = True):
 		if not self.cellExists(cell):
 			return
-		
+
 		blk = Block(colour)
 		blk.setup(self)
 		blk.setPos(cell)

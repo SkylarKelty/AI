@@ -28,7 +28,8 @@ class Bot(Actor):
 	def setPos(self, cell):
 		(x, y) = self.cell
 		Actor.setPos(self, cell)
-		self.direction = (self.x - x, self.y - y)
+		if self.x != x and self.y != y:
+			self.direction = (self.x - x, self.y - y)
 
 	# 
 	# A tick - your main entry point to the world.
@@ -60,6 +61,22 @@ class Bot(Actor):
 		for i in range(self.los):
 			x += dx
 			y += dy
+
+			# Break if the cell doesnt exist
+			if not world.cellExists((x, y)):
+				continue
+
+			# If this cell has a blocking object on it, break this los
+			actors = world.cells[(x, y)]
+			result = False
+			for actor in actors:
+				if actor.losBlocking:
+					result = True
+					break
+			if result:
+				break
+
+			# Set the colour to show its in our LOS
 			world.setBlockColour((x, y), 0x00CC00, False)
 
 	# Render
