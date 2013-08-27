@@ -19,7 +19,7 @@ class Bot(Actor):
 		# How many blocks in front can we see?
 		self.los = 5
 		# Whats our field of view?
-		self.fov = 90
+		self.fov = 120
 
 		# Ignore these
 		self.path = None
