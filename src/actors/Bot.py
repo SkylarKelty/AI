@@ -28,7 +28,8 @@ class Bot(Actor):
 	def setPos(self, cell):
 		(x, y) = self.cell
 		Actor.setPos(self, cell)
-		if self.x != x and self.y != y:
+		# If we have moved, update the direction
+		if self.x != x or self.y != y:
 			self.direction = (self.x - x, self.y - y)
 
 	# 
