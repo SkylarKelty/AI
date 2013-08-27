@@ -15,6 +15,8 @@ class Bot(Actor):
 		
 		# How many blocks in front can we see?
 		self.los = 20
+		# Whats our field of view?
+		self.fov = 180
 
 		# Ignore these
 		self.path = None
@@ -34,6 +36,19 @@ class Bot(Actor):
 				self.path = None
 				self.moveTo(self.world.randomCell(True))
 
+	#
 	# Set a target location that we should move too
+	# 
 	def moveTo(self, cell):
 		self.path = Path(self.world, (self.x, self.y), cell)
+
+	#
+	# Render our fov
+	#
+	def renderFOV(self, world):
+		pass
+
+	# Render
+	def render(self, world):
+		self.renderFOV(world)
+		Actor.render(self, world)
