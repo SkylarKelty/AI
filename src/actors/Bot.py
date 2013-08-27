@@ -22,6 +22,14 @@ class Bot(Actor):
 		self.path = None
 		self.direction = (1, 0)
 
+	#
+	# Calculate direction
+	# 
+	def setPos(self, cell):
+		(x, y) = self.cell
+		Actor.setPos(self, cell)
+		self.direction = (self.x - x, self.y - y)
+
 	# 
 	# A tick - your main entry point to the world.
 	# This should be overridden, and will be called once per (World.tick rate)/second
