@@ -25,7 +25,7 @@ class Actor(object):
 			self.path.update()
 			node = self.path.next()
 			if node:
-				self.setPos(node[0], node[1])
+				self.setPos((node[0], node[1]))
 			else:
 				self.path = None
 				self.moveTo(self.world.randomCell(True))
@@ -52,7 +52,7 @@ class Actor(object):
 		self.speed = speed
 
 	# Set our position
-	def setPos(self, x, y):
+	def setPos(self, (x, y)):
 		e = False
 		if x > self.maxdist:
 			x = self.maxdist
@@ -70,7 +70,7 @@ class Actor(object):
 			y = 0
 			e = True
 
-		if self.world.isEmptyCell(x, y) or self.ignoreBlocking:
+		if self.world.isEmptyCell((x, y)) or self.ignoreBlocking:
 			self.x = x
 			self.y = y
 			return not e
@@ -88,19 +88,19 @@ class Actor(object):
 
 	# Move right
 	def moveRight(self):
-		return self.setPos(self.x + 1, self.y)
+		return self.setPos((self.x + 1, self.y))
 
 	# Move left
 	def moveLeft(self):
-		return self.setPos(self.x - 1, self.y)
+		return self.setPos((self.x - 1, self.y))
 
 	# Move up
 	def moveUp(self):
-		return self.setPos(self.x, self.y - 1)
+		return self.setPos((self.x, self.y - 1))
 
 	# Move down
 	def moveDown(self):
-		return self.setPos(self.x, self.y + 1)
+		return self.setPos((self.x, self.y + 1))
 
 	# Render
 	def render(self, world):

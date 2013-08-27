@@ -60,19 +60,19 @@ class World(QtGui.QFrame):
 			if hasattr(o, "tick"):
 				self.cells[o.x][o.y].remove(o)
 				o.tick()
-				if not self.isEmptyCell(o.x, o.y):
+				if not self.isEmptyCell((o.x, o.y)):
 					self.collide(o)
 				self.cells[o.x][o.y].append(o)
 
 	# Is a given cell empty?
-	def isEmptyCell(self, x, y):
+	def isEmptyCell(self, (x, y)):
 		return not self.cells[x][y]
 
 	# Find an empty cell
 	def findEmptyCell(self):
 		for y in range(World.grid_density):
 			for x in range(World.grid_density):
-				if self.isEmptyCell(x, y):
+				if self.isEmptyCell((x, y)):
 					return (x, y)
 		return None
 
@@ -85,7 +85,7 @@ class World(QtGui.QFrame):
 			empties = []
 			for y in range(World.grid_density):
 				for x in range(World.grid_density):
-					if self.isEmptyCell(x, y):
+					if self.isEmptyCell((x, y)):
 						empties.append((x, y))
 			return random.choice(empties)
 		else:
@@ -109,14 +109,14 @@ class World(QtGui.QFrame):
 		if pos != None:
 			actor.setup(self)
 			self.objects.append(actor)
-			actor.setPos(pos[0], pos[1])
+			actor.setPos((pos[0], pos[1]))
 			self.cells[pos[0]][pos[1]].append(actor)
 
 	# Set the colour of a cell
-	def setBlockColour(self, cell, colour):
+	def setBlockColour(self, (x, y), colour):
 		blk = Block(colour)
 		blk.setup(self)
-		blk.setPos(cell[0], cell[1])
+		blk.setPos((x, y))
 		self.renderables.append(blk)
 
 	# Collide event

@@ -69,7 +69,7 @@ class Path(object):
 					continue
 
 				# Ignore this if we are blocked or in exclusions
-				if not self.world.isEmptyCell(tX, tY) or (tX, tY) in self.exclusions:
+				if not self.world.isEmptyCell((tX, tY)) or (tX, tY) in self.exclusions:
 					continue
 
 				options.append((tX, tY))
