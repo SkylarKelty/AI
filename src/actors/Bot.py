@@ -11,6 +11,12 @@ class Bot(Actor):
 	# 
 	def __init__(self, name, colour = 0x000000):
 		Actor.__init__(self, name, colour)
+		# Change these
+		
+		# How many blocks in front can we see?
+		self.los = 20
+
+		# Ignore these
 		self.path = None
 
 	# 

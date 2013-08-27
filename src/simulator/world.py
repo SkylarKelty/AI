@@ -45,14 +45,10 @@ class World(QtGui.QFrame):
 		QtGui.QFrame.__init__(self, parent)
 		self.renderables = []
 		self.objects = []
-
-		# Setup our cell array
-		self.cells = []
+		self.cells = {}
 		for x in range(World.grid_density):
-			x = []
 			for y in range(World.grid_density):
-				x.append([])
-			self.cells.append(x)
+				self.cells[(x, y)] = []
 
 		if World.show_grid:
 			self.grid()
@@ -65,17 +61,17 @@ class World(QtGui.QFrame):
 	# 
 	def preTick(self, tick):
 		for o in self.objects:
-			self.cells[o.x][o.y].remove(o)
+			self.cells[(o.x, o.y)].remove(o)
 			o.tick(tick)
 			if not self.isEmptyCell((o.x, o.y)):
 				self.collide(o)
-			self.cells[o.x][o.y].append(o)
+			self.cells[(o.x, o.y)].append(o)
 
 	#
 	# Is a given cell empty?
 	# 
 	def isEmptyCell(self, (x, y)):
-		return not self.cells[x][y]
+		return not self.cells[(x, y)]
 
 	#
 	# Find an empty cell
@@ -131,7 +127,7 @@ class World(QtGui.QFrame):
 			actor.setup(self)
 			self.objects.append(actor)
 			actor.setPos((pos[0], pos[1]))
-			self.cells[pos[0]][pos[1]].append(actor)
+			self.cells[(pos[0], pos[1])].append(actor)
 
 	#
 	# Set the colour of a cell
@@ -146,7 +142,7 @@ class World(QtGui.QFrame):
 	# Collide event
 	#
 	def collide(self, obj):
-		for o in self.cells[obj.x][obj.y]:
+		for o in self.cells[(obj.x, obj.y)]:
 			o.onCollision(obj)
 			obj.onCollision(o)
 
