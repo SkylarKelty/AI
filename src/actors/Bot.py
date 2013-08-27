@@ -1,3 +1,4 @@
+from PyQt4 import QtGui
 from src.gfx.actor import Actor
 from src.ai.pathfinding import Path
 
@@ -14,7 +15,7 @@ class Bot(Actor):
 		# Change these
 		
 		# How many blocks in front can we see?
-		self.los = 20
+		self.los = 5
 		# Whats our field of view?
 		self.fov = 180
 
@@ -57,6 +58,10 @@ class Bot(Actor):
 	# Render our fov
 	#
 	def renderFOV(self, world):
+		painter = QtGui.QPainter(world)
+		rect = world.contentsRect()
+		painter.setPen(QtGui.QColor(0x00CC00))
+
 		(dx, dy) = self.direction
 		(x, y) = self.cell
 		for i in range(self.los):
@@ -78,7 +83,15 @@ class Bot(Actor):
 				break
 
 			# Set the colour to show its in our LOS
-			world.setBlockColour((x, y), 0x00CC00, False)
+			painter.drawLine(self.trueX(rect, self.x), self.trueY(rect, self.y), self.trueX(rect, x), self.trueY(rect, y))
+
+	def trueX(self, rect, x):
+		sizeX = rect.width() / self.grid_density
+		return (x * sizeX) + (sizeX / 2)
+
+	def trueY(self, rect, y):
+		sizeY = rect.height() / self.grid_density
+		return (y * sizeY) + (sizeY / 2)
 
 	# Render
 	def render(self, world):
