@@ -57,27 +57,17 @@ class Path(object):
 
 		# Choose our best option
 		chosen = None
-		options = []
-		for tX in range(x - 1, x + 2):
-			if tX < 0 or tX > self.maxG:
+		options = self.world.surroundingCells(src)
+		for cell in options:
+			# Ignore this if we are blocked or in exclusions
+			if not self.world.isEmptyCell(cell) or cell in self.exclusions:
+				options.remove(cell)
 				continue
 
-			for tY in range(y - 1, y + 2):
-				if tY < 0 or tY > self.maxG:
-					continue
-				if tY == 0 and tX == 0:
-					continue
-
-				# Ignore this if we are blocked or in exclusions
-				if not self.world.isEmptyCell((tX, tY)) or (tX, tY) in self.exclusions:
-					continue
-
-				options.append((tX, tY))
-
-				w = self.weight((tX, tY), self.destination)
-				if mW == -1 or w < mW:
-					chosen = (tX, tY)
-					mW = w
+			w = self.weight(cell, self.destination)
+			if mW == -1 or w < mW:
+				chosen = cell
+				mW = w
 
 		# Choose something random if we failed
 		if not chosen and len(options) > 0:

@@ -107,6 +107,22 @@ class World(QtGui.QFrame):
 			return (x, y)
 
 	#
+	# Returns all the valid cells around the current one
+	#
+	def surroundingCells(self, (x, y)):
+		options = []
+		for tX in range(x - 1, x + 2):
+			if tX < 0 or tX > (World.grid_density - 1):
+				continue
+			for tY in range(y - 1, y + 2):
+				if tY < 0 or tY > (World.grid_density - 1):
+					continue
+				if tY == 0 and tX == 0:
+					continue
+				options.append((tX, tY))
+		return options
+
+	#
 	# Run the sim
 	#
 	def run(self):
