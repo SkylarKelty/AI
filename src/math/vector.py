@@ -51,9 +51,13 @@ class Vector(object):
 		(x, y) = self.dest
 		(ox, oy) = self.src
 
-		# Start at origin and work towards dest
-		diff = length / 10.0
-		
+		cell = world.cellAtPixel((x, y))
+		if cell:
+			world.setBlockColour(cell, 0x333333)
+		cell = world.cellAtPixel((ox, oy))
+		if cell:
+			world.setBlockColour(cell, 0x333333)
+
 
 
 		return None
