@@ -7,6 +7,7 @@ class Actor(object):
 		self.name = name
 		self.setColour(colour)
 		self.setSpeed(1)
+		self.cell = (0, 0)
 		self.x = 0
 		self.y = 0
 
@@ -63,6 +64,7 @@ class Actor(object):
 		if self.world.isEmptyCell((x, y)) or self.ignoreBlocking:
 			self.x = x
 			self.y = y
+			self.cell = (x, y)
 			return not e
 
 		return False

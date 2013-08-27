@@ -72,8 +72,8 @@ class World(QtGui.QFrame):
 	#
 	# Is a given cell empty?
 	# 
-	def isEmptyCell(self, (x, y)):
-		return not self.cells[(x, y)]
+	def isEmptyCell(self, cell):
+		return not self.cells[cell]
 
 	#
 	# Find an empty cell
@@ -128,8 +128,8 @@ class World(QtGui.QFrame):
 		if pos != None:
 			actor.setup(self)
 			self.objects.append(actor)
-			actor.setPos((pos[0], pos[1]))
-			self.cells[(pos[0], pos[1])].append(actor)
+			actor.setPos(pos)
+			self.cells[pos].append(actor)
 
 	#
 	# Set the colour of a cell
