@@ -46,9 +46,11 @@ class World(QtGui.QFrame):
 		self.renderables = []
 		self.objects = []
 		self.cells = {}
+		self.cell_colours = {}
 		for x in range(World.grid_density):
 			for y in range(World.grid_density):
 				self.cells[(x, y)] = []
+				self.cell_colours[(x, y)] = []
 
 		if World.show_grid:
 			self.grid()
@@ -132,11 +134,25 @@ class World(QtGui.QFrame):
 	#
 	# Set the colour of a cell
 	#
-	def setBlockColour(self, (x, y), colour):
+	def setBlockColour(self, cell, colour, permanent = True):
 		blk = Block(colour)
 		blk.setup(self)
-		blk.setPos((x, y))
-		self.renderables.append(blk)
+		blk.setPos(cell)
+
+		# Clear out the current block
+		if self.cell_colours[cell]:
+			o = self.cell_colours[cell]
+			if o in self.renderables:
+				self.renderables.remove(o)
+			self.cell_colours[cell].remove(o)
+
+		self.cell_colours[cell].append(blk)
+
+		# Add to render queue?
+		if permanent:
+			self.renderables.append(blk)
+		else:
+			blk.render(self)
 
 	#
 	# Collide event
