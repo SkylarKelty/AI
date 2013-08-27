@@ -64,21 +64,14 @@ class Bot(Actor):
 		painter = QtGui.QPainter(world)
 		rect = world.contentsRect()
 		painter.setPen(QtGui.QColor(0x00CC00))
-		plane = self.getPlane(rect)
 
 		# Origin
 		(x1, y1) = (self.trueX(rect, self.x), self.trueY(rect, self.y))
-		(dx, dy) = self.direction
-		#(cx, cy) = self.cell
-		angle = #self.getRotation()
+		angle = self.getRotation()
 
-		#for i in range(self.los):
-		#	cx += dx
-		#	cy += dy
-
-		(x2, y2) = (x1, y1 - self.trueY(rect, self.los)) # Base x2, y2
+		(x2, y2) = (x1, y1 - self.trueY(rect, self.los)) # Base
 		
-
+		# Center point
 		vec = Vector((x1, y1), (x2, y2))
 		(x2, y2) = vec.rotate(angle)
 		painter.drawLine(x1, y1, x2, y2)
