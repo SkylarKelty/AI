@@ -40,24 +40,10 @@ class Vector(object):
 		return math.sqrt(d)
 
 	#
-	# Given a world, does this vector intersect anything? if so, where?
+	# Given a world, does this vector intersect anything at its end point?
 	#
-	def intersectsAt(self, world, rect):
-		sizeX = rect.width() / world.grid_density
-		sizeY = rect.height() / world.grid_density
-		cells = world.cells
-		length = self.length()
-
-		(x, y) = self.dest
-		(ox, oy) = self.src
-
-		cell = world.cellAtPixel((x, y))
+	def intersects(self, world):
+		cell = world.cellAtPixel(self.dest)
 		if cell:
-			world.setBlockColour(cell, 0x333333)
-		cell = world.cellAtPixel((ox, oy))
-		if cell:
-			world.setBlockColour(cell, 0x333333)
-
-
-
+			return world.cells[cell]
 		return None

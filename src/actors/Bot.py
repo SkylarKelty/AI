@@ -68,14 +68,22 @@ class Bot(Actor):
 		(x1, y1) = (self.trueX(rect, self.x), self.trueY(rect, self.y))
 		angle = self.getRotation()
 
-		(x2, y2) = (x1, y1 - self.trueY(rect, self.los)) # Base
+		for l in range(self.los):
+			(x2, y2) = (x1, y1 - self.trueY(rect, l)) # Base
 
-		# Draw fan
-		for i in range(-(self.fov / 2), (self.fov / 2) + 1, 5):
-			vec = Vector((x1, y1), (x2, y2))
-			(rx, ry) = vec.rotate(angle + i)
-			intersection = vec.intersectsAt(world, rect)
-			painter.drawLine(x1, y1, rx, ry)
+			# Draw fan
+			fovhits = {}
+			for i in range(-(self.fov / 2), (self.fov / 2) + 1, 5):
+				if i in fovhits:
+					continue
+
+				vec = Vector((x1, y1), (x2, y2))
+				(rx, ry) = vec.rotate(angle + i)
+				intersection = vec.intersects(world)
+				if intersection:
+					fovhits[i] = intersection
+				else:
+					painter.drawLine(x1, y1, rx, ry)
 
 	#
 	# Constrains a number to a min/max
