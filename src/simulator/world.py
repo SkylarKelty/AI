@@ -24,8 +24,8 @@ class World(QtGui.QFrame):
 	def setup(self):
 		# Create an actor
 		barry = Bot("Barry")
-		self.addActor(barry, self.findEmptyCell())
-		barry.moveTo(self.randomCell(True))
+		self.addActor(barry, (25, 25))
+		#barry.moveTo(self.randomCell(True))
 
 		# Create a bunch of blocks
 		for i in range(30):
