@@ -48,7 +48,11 @@ class Bot(Actor):
 	#
 	def renderFOV(self, world):
 		(dx, dy) = self.direction
-		world.setBlockColour((self.x + dx, self.y + dy), 0x00CC00, False)
+		(x, y) = self.cell
+		for i in range(self.los):
+			x += dx
+			y += dy
+			world.setBlockColour((x, y), 0x00CC00, False)
 
 	# Render
 	def render(self, world):

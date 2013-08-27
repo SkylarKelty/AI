@@ -153,6 +153,9 @@ class World(QtGui.QFrame):
 	# Set the colour of a cell
 	#
 	def setBlockColour(self, cell, colour, permanent = True):
+		if not self.cellExists(cell):
+			return
+		
 		blk = Block(colour)
 		blk.setup(self)
 		blk.setPos(cell)
