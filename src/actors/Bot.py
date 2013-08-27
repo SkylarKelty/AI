@@ -70,7 +70,7 @@ class Bot(Actor):
 		(x1, y1) = (self.trueX(rect, self.x), self.trueY(rect, self.y))
 		(dx, dy) = self.direction
 		#(cx, cy) = self.cell
-		angle = self.getRotation()
+		angle = #self.getRotation()
 
 		#for i in range(self.los):
 		#	cx += dx
@@ -90,56 +90,6 @@ class Bot(Actor):
 		# right point
 		(x2, y2) = vec.rotate(self.fov)
 		painter.drawLine(x1, y1, x2, y2)
-
-		# Draw plane
-		#x3 = (x2 - (plane / 2)) * (math.cos(angle) * -math.sin(angle))
-		#y3 = y2 * (math.sin(angle) * -math.cos(angle))
-		#painter.drawLine(x2, y2, x3, y3)
-
-		#x3 = x2 + (plane / 2)
-		#y3 = y2
-		#painter.drawLine(x2, y2, x3, y3)
-
-
-
-		return
-
-		(dx, dy) = self.direction
-		(x, y) = self.cell
-		for angle in range(-(self.fov / 2), (self.fov / 2) + 1):
-			angle_multiply = 1.0 / float(angle)
-			for i in range(self.los):
-				x += dx
-				y += dy
-
-				# Break if the cell doesnt exist
-				if not world.cellExists((x, y)):
-					continue
-
-				# If this cell has a blocking object on it, break this los
-				actors = world.cells[(x, y)]
-				result = False
-				for actor in actors:
-					if actor.losBlocking:
-						result = True
-						break
-				if result:
-					break
-
-				# Set the colour to show its in our LOS
-				
-				(x2, y2) = (self.trueX(rect, x), self.trueY(rect, y))
-				painter.drawLine(x1, y1, x2, y2)
-
-	#
-	# Returns the size of our plane
-	# 
-	def getPlane(self, rect):
-		sizeX = rect.width() / self.grid_density
-		side = self.los * sizeX
-		angle = self.fov / 2.0
-		radius = math.sqrt((math.pow(side, 2) * 2) - ((2 * (side*side)) * math.cos(angle)))
-		return radius * 2
 
 	#
 	# Constrains a number to a min/max
