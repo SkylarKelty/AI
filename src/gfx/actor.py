@@ -35,7 +35,6 @@ class Actor(object):
 		self.world = world
 		self.grid_density = world.grid_density
 		self.maxdist = world.grid_density - 1
-		self.direction = 1
 		self.alive = True
 
 	# Set our colour

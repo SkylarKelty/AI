@@ -20,6 +20,7 @@ class Bot(Actor):
 
 		# Ignore these
 		self.path = None
+		self.direction = (1, 0)
 
 	# 
 	# A tick - your main entry point to the world.
@@ -46,7 +47,8 @@ class Bot(Actor):
 	# Render our fov
 	#
 	def renderFOV(self, world):
-		pass
+		(dx, dy) = self.direction
+		world.setBlockColour((self.x + dx, self.y + dy), 0x00CC00, False)
 
 	# Render
 	def render(self, world):
