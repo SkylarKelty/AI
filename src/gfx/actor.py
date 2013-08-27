@@ -45,7 +45,7 @@ class Actor(object):
 	def setSpeed(self, speed):
 		self.speed = speed
 
-	# Set our position
+	# Set our position, ensuring its in the grid
 	def setPos(self, (x, y)):
 		e = False
 		if x > self.maxdist:
