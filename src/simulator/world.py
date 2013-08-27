@@ -107,17 +107,19 @@ class World(QtGui.QFrame):
 			return (x, y)
 
 	#
+	# Returns true if a cell exists at the given coords
+	#
+	def cellExists(self, cell):
+		return cell in self.cells
+
+	#
 	# Returns all the valid cells around the current one
 	#
 	def surroundingCells(self, (x, y)):
 		options = []
 		for tX in range(x - 1, x + 2):
-			if tX < 0 or tX > (World.grid_density - 1):
-				continue
 			for tY in range(y - 1, y + 2):
-				if tY < 0 or tY > (World.grid_density - 1):
-					continue
-				if tY == 0 and tX == 0:
+				if not self.cellExists((tX, tY)) or (tY == 0 and tX == 0):
 					continue
 				options.append((tX, tY))
 		return options
@@ -160,7 +162,8 @@ class World(QtGui.QFrame):
 			o = self.cell_colours[cell]
 			if o in self.renderables:
 				self.renderables.remove(o)
-			self.cell_colours[cell].remove(o)
+			if o in self.cell_colours[cell]:
+				self.cell_colours[cell].remove(o)
 
 		self.cell_colours[cell].append(blk)
 
