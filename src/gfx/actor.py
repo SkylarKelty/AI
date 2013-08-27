@@ -2,6 +2,22 @@ from PyQt4 import QtGui
 
 class Actor(object):
 
+	# 
+	# A tick - your main entry point to the world.
+	# This should be overridden, and will be called once per (World.tick rate)/second
+	# 
+	def tick(self, tick):
+		pass
+
+	# Called when we collide with something
+	def onCollision(self, obj):
+		print "%s collided with %s!" % (self.name, obj.name)
+
+
+	# --------------------------------
+	# You shouldnt need to change anything below this line
+	# --------------------------------
+
 	# Init
 	def __init__(self, name, colour = 0x000000):
 		self.name = name
@@ -13,18 +29,6 @@ class Actor(object):
 
 		# Can this actor go through other actors?
 		self.ignoreBlocking = False
-
-	# 
-	# A tick - your main entry point to the world.
-	# This should be overridden, and will be called once per (World.tick rate)/second
-	# 
-	def tick(self, tick):
-		pass
-
-
-	# --------------------------------
-	# You shouldnt need to change anything below this line
-	# --------------------------------
 
 	# Setup
 	def setup(self, world):
@@ -68,10 +72,6 @@ class Actor(object):
 			return not e
 
 		return False
-
-	# Called when we collide with something
-	def onCollision(self, obj):
-		print "%s collided with %s!" % (self.name, obj.name)
 
 	# Move right
 	def moveRight(self):
