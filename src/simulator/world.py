@@ -25,7 +25,7 @@ class World(QtGui.QFrame):
 		# Create an actor
 		barry = Bot("Barry")
 		self.addActor(barry, self.findEmptyCell())
-		barry.moveTo(self.randomCell(True))
+		#barry.moveTo(self.randomCell(True))
 
 		# Create a bunch of blocks
 		for i in range(30):
@@ -113,6 +113,25 @@ class World(QtGui.QFrame):
 		return cell in self.cells
 
 	#
+	# Returns the cell at a set of pixel coords
+	#
+	def cellAtPixel(self, cell):
+		if cell in self.cells:
+			return self.cells[cell]
+
+		(x, y) = cell
+		rect = self.contentsRect()
+		sizeX = rect.width() / self.grid_density
+		sizeY = rect.height() / self.grid_density
+
+		minX = int((x - (x % sizeX)) / sizeX)
+		minY = int((y - (y % sizeY)) / sizeY)
+		if (minX, minY) in self.cells:
+			return (minX, minY)
+
+		return None
+
+	#
 	# Returns all the valid cells around the current one
 	#
 	def surroundingCells(self, (x, y)):
@@ -152,7 +171,7 @@ class World(QtGui.QFrame):
 	#
 	# Set the colour of a cell
 	#
-	def setBlockColour(self, cell, colour, permanent = True):
+	def setBlockColour(self, cell, colour = 0x000000, permanent = True):
 		if not self.cellExists(cell):
 			return
 
