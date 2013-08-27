@@ -19,7 +19,7 @@ class Actor(object):
 	# A tick - your main entry point to the world.
 	# This should be overridden, and will be called once per (World.tick rate)/second
 	# 
-	def tick(self):
+	def tick(self, tick):
 		if self.path:
 			self.path.setSource((self.x, self.y))
 			self.path.update()

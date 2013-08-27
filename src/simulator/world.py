@@ -15,7 +15,7 @@ class World(QtGui.QFrame):
 	# 
 	# A tick will be called once per (tick rate)/second
 	# 
-	def tick(self):
+	def tick(self, tick):
 		pass
 
 	# 
@@ -61,11 +61,11 @@ class World(QtGui.QFrame):
 	# 
 	# A preTick will be called once per (tick rate)/second
 	# 
-	def preTick(self):
+	def preTick(self, tick):
 		for o in self.objects:
 			if hasattr(o, "tick"):
 				self.cells[o.x][o.y].remove(o)
-				o.tick()
+				o.tick(tick)
 				if not self.isEmptyCell((o.x, o.y)):
 					self.collide(o)
 				self.cells[o.x][o.y].append(o)
@@ -102,6 +102,7 @@ class World(QtGui.QFrame):
 
 	# Run the sim
 	def run(self):
+		self.ticks = 0
 		self.timer = QtCore.QBasicTimer()
 		self.timer.start(1000 / World.tick_rate, self)
 
@@ -149,9 +150,10 @@ class World(QtGui.QFrame):
 	# Called by the timer
 	def timerEvent(self, event):
 		if event.timerId() == self.timer.timerId():
-			self.preTick()
-			self.tick()
+			self.preTick(self.ticks)
+			self.tick(self.ticks)
 			self.cleanupWorld()
 			self.update()
+			self.ticks = self.ticks + 1
 		else:
 			QtGui.QFrame.timerEvent(self, event)

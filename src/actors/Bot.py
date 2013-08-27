@@ -1,7 +1,7 @@
 from src.gfx.actor import Actor
 
 #
-# A simple blocking object
+# A simple bot
 #
 class Bot(Actor):
 
@@ -12,5 +12,5 @@ class Bot(Actor):
 	# A tick - your main entry point to the world.
 	# This should be overridden, and will be called once per (World.tick rate)/second
 	# 
-	def tick(self):
-		Actor.tick(self)
+	def tick(self, tick):
+		Actor.tick(self, tick)
