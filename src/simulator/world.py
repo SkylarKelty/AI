@@ -10,7 +10,7 @@ class World(QtGui.QFrame):
 	# How dense is the world grid?
 	grid_density = 50
 	# How often should we tick per second?
-	tick_rate = 3
+	tick_rate = 10
 
 	# 
 	# A tick will be called once per (tick rate)/second
@@ -28,7 +28,7 @@ class World(QtGui.QFrame):
 		barry.moveTo(self.randomCell(True))
 
 		# Create a bunch of blocks
-		for i in range(30):
+		for i in range(50):
 			cell = self.randomCell(True)
 			if cell:
 				self.addActor(Block(), cell)

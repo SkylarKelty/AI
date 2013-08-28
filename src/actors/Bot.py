@@ -63,16 +63,17 @@ class Bot(Actor):
 		painter = QtGui.QPainter(world)
 		rect = world.contentsRect()
 		painter.setPen(QtGui.QColor(0x00CC00))
+		cellHeight = rect.height() / self.grid_density
 
 		# Origin
 		(x1, y1) = (self.trueX(rect, self.x), self.trueY(rect, self.y))
 		angle = self.getRotation()
 
+		fovhits = {}
 		for l in range(self.los):
-			(x2, y2) = (x1, y1 - self.trueY(rect, l)) # Base
+			(x2, y2) = (x1, (y1 - self.trueY(rect, l)) - (cellHeight / 2)) # Base
 
 			# Draw fan
-			fovhits = {}
 			for i in range(-(self.fov / 2), (self.fov / 2) + 1, 5):
 				if i in fovhits:
 					continue
