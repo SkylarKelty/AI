@@ -26,16 +26,6 @@ class Bot(Actor):
 		self.direction = (1, 0)
 		self.FOVLines = []
 
-	#
-	# Calculate direction
-	# 
-	def setPos(self, cell):
-		(x, y) = self.cell
-		Actor.setPos(self, cell)
-		# If we have moved, update the direction
-		if self.x != x or self.y != y:
-			self.direction = (self.constrain(self.x - x, -1, 1), self.constrain(self.y - y, -1, 1))
-
 	# 
 	# A tick - your main entry point to the world.
 	# This should be overridden, and will be called once per (World.tick rate)/second
@@ -65,11 +55,25 @@ class Bot(Actor):
 	def onSight(self, cell, obj):
 		pass
 
+	# -----------------------------------------------------
+	# You shouldnt need to change anything below this line
+	# -----------------------------------------------------
+
 	#
 	# Set a target location that we should move too
 	# 
 	def moveTo(self, cell):
 		self.path = Path(self.world, (self.x, self.y), cell)
+
+	#
+	# Override: Calculate direction as well
+	# 
+	def setPos(self, cell):
+		(x, y) = self.cell
+		Actor.setPos(self, cell)
+		# If we have moved, update the direction
+		if self.x != x or self.y != y:
+			self.direction = (self.constrain(self.x - x, -1, 1), self.constrain(self.y - y, -1, 1))
 
 	#
 	# Detect objects in our fov
