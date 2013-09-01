@@ -46,6 +46,8 @@ class Bot(Actor):
 				for obj in insight[cell]:
 					self.onSight(cell, obj)
 
+		Actor.tick(self, world, tick)
+
 	#
 	# What do we do when we spy something?
 	# 
