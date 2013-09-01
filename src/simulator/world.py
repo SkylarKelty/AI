@@ -142,7 +142,7 @@ class World(QtGui.QFrame):
 		options = []
 		for tX in range(x - 1, x + 2):
 			for tY in range(y - 1, y + 2):
-				if not self.cellExists((tX, tY)) or (tY == 0 and tX == 0):
+				if not self.cellExists((tX, tY)) or (x, y) == (tX, tY):
 					continue
 				options.append((tX, tY))
 		return options
