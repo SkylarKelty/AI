@@ -128,7 +128,7 @@ class World(QtGui.QFrame):
 	#
 	def cellAtPixel(self, cell):
 		if cell in self.cells:
-			return self.cells[cell]
+			return cell
 
 		(x, y) = cell
 		rect = self.contentsRect()
