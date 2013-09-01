@@ -24,6 +24,8 @@ class Bot(Actor):
 		# Ignore these
 		self.path = None
 		self.direction = (1, 0)
+		self.inSight = {}
+		self.FOVLines = []
 
 	#
 	# Calculate direction
@@ -39,7 +41,8 @@ class Bot(Actor):
 	# A tick - your main entry point to the world.
 	# This should be overridden, and will be called once per (World.tick rate)/second
 	# 
-	def tick(self, tick):
+	def tick(self, world, tick):
+		# Move first
 		if self.path:
 			self.path.setSource((self.x, self.y))
 			self.path.update()
@@ -50,6 +53,10 @@ class Bot(Actor):
 				self.path = None
 				self.moveTo(self.world.randomCell(True))
 
+		# Check LOS
+		self.inSight = {}
+		self.getFOV(world)
+
 	#
 	# Set a target location that we should move too
 	# 
@@ -57,12 +64,11 @@ class Bot(Actor):
 		self.path = Path(self.world, (self.x, self.y), cell)
 
 	#
-	# Render our fov
+	# Detect objects in our fov
 	#
-	def renderFOV(self, world):
-		painter = QtGui.QPainter(world)
+	def getFOV(self, world):
+		self.FOVLines = []
 		rect = world.contentsRect()
-		painter.setPen(QtGui.QColor(0x00CC00))
 		cellHeight = rect.height() / self.grid_density
 
 		# Origin
@@ -83,8 +89,18 @@ class Bot(Actor):
 				intersection = vec.intersects(world)
 				if intersection:
 					fovhits[i] = intersection
+					self.inSight[(rx, ry)] = intersection
 				else:
-					painter.drawLine(x1, y1, rx, ry)
+					self.FOVLines.append((x1, y1, rx, ry))
+
+	#
+	# Render our fov
+	#
+	def renderFOV(self, world):
+		painter = QtGui.QPainter(world)
+		painter.setPen(QtGui.QColor(0x00CC00))
+		for (x1, y1, rx, ry) in self.FOVLines:
+			painter.drawLine(x1, y1, rx, ry)
 
 	#
 	# Constrains a number to a min/max
@@ -128,5 +144,6 @@ class Bot(Actor):
 
 	# Render
 	def render(self, world):
-		self.renderFOV(world)
+		if hasattr(self, "FOVLines"):
+			self.renderFOV(world)
 		Actor.render(self, world)

@@ -19,7 +19,7 @@ class World(QtGui.QFrame):
 		pass
 
 	# 
-	# Setup- your first entry point to the world.
+	# Setup - your first entry point to the world.
 	# 
 	def setup(self):
 		# Create an actor
@@ -64,7 +64,7 @@ class World(QtGui.QFrame):
 	def preTick(self, tick):
 		for o in self.objects:
 			self.cells[(o.x, o.y)].remove(o)
-			o.tick(tick)
+			o.tick(self, tick)
 			if not self.isEmptyCell((o.x, o.y)):
 				self.collide(o)
 			self.cells[(o.x, o.y)].append(o)

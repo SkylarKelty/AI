@@ -13,5 +13,5 @@ class Block(Actor):
 	# A tick - your main entry point to the world.
 	# This should be overridden, and will be called once per (World.tick rate)/second
 	# 
-	def tick(self, tick):
+	def tick(self, world, tick):
 		pass # Do nothing
