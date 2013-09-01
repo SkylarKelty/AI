@@ -136,7 +136,7 @@ class Actor(object):
 	#
 	# Perform an action in (ticks) ticks
 	#
-	def doIn(self, ticks, action, args):
+	def doIn(self, ticks, action, args = []):
 		if not ticks in self.actions:
 			self.actions[ticks] = []
 		self.actions[ticks].append((action, args))

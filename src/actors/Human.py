@@ -18,14 +18,16 @@ class Human(Bot):
 
 		Bot.__init__(self, namegen.human(self.gender), 0xBA6C49)
 
+		self.doIn(random.randint(50, 120), "die")
+
 	#
 	# Tick
 	#
 	def tick(self, world, tick):
 		# Randomly spawn a child, with a 1 in a 100 tick chance
 		if self.gender == "F" and random.randint(0, 100) == 0:
-			self.spawn(world)
-			print "%s had a baby!" % self
+			self.doIn(9, "birth")
+			print "%s is pregnant!" % self
 
 		# Die if we are too hungry
 		if self.hunger == 30:
@@ -43,10 +45,12 @@ class Human(Bot):
 	#
 	# Spawn a child
 	#
-	def spawn(self, world):
+	def spawn(self):
 		child = Human()
-		world.addActor(child, world.findEmptyCell())
-		child.moveTo(world.randomCell(True))
+		self.world.addActor(child, self.world.findEmptyCell())
+		child.moveTo(self.world.randomCell(True))
+		gender_map = {"M": "boy", "F": "girl"}
+		print "%s had a baby %s!" % (self, gender_map[child.gender])
 
 	#
 	# What do we do when we spy something?
@@ -73,8 +77,11 @@ class Human(Bot):
 	# Called by doIn
 	#
 	def onAction(self, name, args):
-		if name == "replenish":
-			self.spawn(args[0])
+		if name == "birth":
+			self.spawn()
+		if name == "die":
+			print "%s has died of old age!" % self
+			self.kill()
 
 	#
 	# What do when we finish our path?
