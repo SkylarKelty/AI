@@ -11,6 +11,7 @@ class Actor(object):
 		self.cell = (0, 0)
 		self.x = 0
 		self.y = 0
+		self.canPass = False
 
 		# Can this actor go through other actors?
 		self.ignoreBlocking = False
@@ -50,8 +51,7 @@ class Actor(object):
 	# Called when we collide with something
 	# 
 	def onCollision(self, obj):
-		print "%s collided with %s!" % (self.name, obj.name)
-
+		pass
 
 	# Set our colour
 	def setColour(self, colour):
@@ -66,13 +66,28 @@ class Actor(object):
 		constrained_x = self.constrain(x, 0, self.maxdist)
 		constrained_y = self.constrain(y, 0, self.maxdist)
 
-		if self.world.isEmptyCell((constrained_x, constrained_y)) or self.ignoreBlocking:
+		if self.canCollide((constrained_x, constrained_y)):
 			self.x = constrained_x
 			self.y = constrained_y
 			self.cell = (constrained_x, constrained_y)
 			return not (constrained_x != x or constrained_y != y)
 
 		return False
+
+	# Can we collide with a given cell?
+	def canCollide(self, cell):
+		if self.ignoreBlocking:
+			return True
+
+		if self.world.isEmptyCell(cell):
+			return True
+
+		objs = self.world.cells[cell]
+		f = True
+		for o in objs:
+			f = f and o.canPass
+
+		return f
 
 	# Move right
 	def moveRight(self):

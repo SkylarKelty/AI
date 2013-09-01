@@ -12,6 +12,9 @@ class Fruit(Actor):
 		self.ignoreBlocking = True
 		self.lifetime = 0
 		self.tree = tree
+		self.edible = True
+		self.hungerValue = 10
+		self.canPass = True
 
 	# 
 	# Tick

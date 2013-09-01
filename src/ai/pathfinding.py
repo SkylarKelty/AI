@@ -5,8 +5,9 @@ import random
 #
 class Path(object):
 	# Create a new Path
-	def __init__(self, world, src, dest):
+	def __init__(self, world, actor, src, dest):
 		self.path = []
+		self.actor = actor
 		self.world = world
 		self.maxG = self.world.grid_density - 1
 		self.setSource(src)
@@ -60,7 +61,7 @@ class Path(object):
 		options = self.world.surroundingCells(src)
 		for cell in options:
 			# Ignore this if we are blocked or in exclusions
-			if not self.world.isEmptyCell(cell) or cell in self.exclusions:
+			if not self.actor.canCollide(cell) or cell in self.exclusions:
 				options.remove(cell)
 				continue
 

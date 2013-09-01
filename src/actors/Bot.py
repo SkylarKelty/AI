@@ -39,7 +39,7 @@ class Bot(Actor):
 				self.setPos((node[0], node[1]))
 			else:
 				self.path = None
-				self.moveTo(self.world.randomCell(True))
+				self.onPathFinish()
 
 		# Check LOS
 		insight = self.getFOV(world)
@@ -54,6 +54,12 @@ class Bot(Actor):
 	def onSight(self, cell, obj):
 		pass
 
+	#
+	# What do when we finish our path?
+	# 
+	def onPathFinish(self):
+		pass
+
 	# -----------------------------------------------------
 	# You shouldnt need to change anything below this line
 	# -----------------------------------------------------
@@ -62,7 +68,7 @@ class Bot(Actor):
 	# Set a target location that we should move too
 	# 
 	def moveTo(self, cell):
-		self.path = Path(self.world, (self.x, self.y), cell)
+		self.path = Path(self.world, self, (self.x, self.y), cell)
 
 	#
 	# Override: Calculate direction as well
@@ -98,10 +104,13 @@ class Bot(Actor):
 
 				vec = Vector((x1, y1), (x2, y2))
 				(rx, ry) = vec.rotate(angle + i)
+				cell = world.cellAtPixel((rx, ry))
+				if not cell in sight:
+					sight[cell] = []
 				intersection = vec.intersects(world)
 				if intersection:
 					fovhits[i] = intersection
-					sight[(rx, ry)] = intersection
+					sight[cell] = intersection
 				else:
 					self.FOVLines.append((x1, y1, rx, ry))
 		return sight
@@ -143,6 +152,6 @@ class Bot(Actor):
 
 	# Render
 	def render(self, world):
-		#if hasattr(self, "FOVLines"):
-		#	self.renderFOV(world)
+		if hasattr(self, "FOVLines"):
+			self.renderFOV(world)
 		Actor.render(self, world)
