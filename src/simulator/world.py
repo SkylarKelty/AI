@@ -116,8 +116,8 @@ class World(QtGui.QFrame):
 			return random.choice(empties)
 		else:
 			# Grab a random cell
-			x = random.randint(0, World.grid_density)
-			y = random.randint(0, World.grid_density)
+			x = random.randint(0, World.grid_density - 1)
+			y = random.randint(0, World.grid_density - 1)
 			return (x, y)
 
 	#
