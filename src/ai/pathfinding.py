@@ -25,7 +25,6 @@ class Path(object):
 
 	# Returns the next node on the path
 	def next(self):
-		self.exclusions = {}
 		return self.getBest(self.source)
 
 	# Returns the entire path
