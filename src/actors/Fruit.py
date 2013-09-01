@@ -30,5 +30,5 @@ class Fruit(Actor):
 	# On kill, respawn
 	#
 	def kill(self):
-		self.tree.doIn(15, "replenish", [self.cell])
+		self.tree.doIn(15, "replenish", self.cell)
 		Actor.kill(self)

@@ -12,29 +12,17 @@ class Tree(Actor):
 	def __init__(self):
 		Actor.__init__(self, "An apple tree", 0x855D00)
 		self.ignoreBlocking = True
-		self.firstTick = True
 		self.fruit = {}
 
-	# 
-	# Tick
-	# 
-	def tick(self, world, tick):
-		# Grab surrounding cells if first tick
-		if self.firstTick:
-			self.surroundingCells = []
-			for cell in world.surroundingCells(self.cell):
-				if world.isEmptyCell(cell):
-					self.surroundingCells.append(cell)
-
-			# Spawn fruit
-			for cell in self.surroundingCells:
-				self.doIn(random.randint(2, 15), "replenish", [cell])
-
-			self.firstTick = False
-			return
-
-		# Parent tick
-		Actor.tick(self, world, tick)
+	#
+	# setPos
+	#
+	def setPos(self, cell):
+		r = Actor.setPos(self, cell)
+		# Spawn fruit
+		for c in self.world.surroundingCells(cell):
+			self.doIn(random.randint(2, 15), "replenish", c)
+		return r
 
 	#
 	# Spawn fruit
@@ -44,10 +32,12 @@ class Tree(Actor):
 			f = Fruit(self)
 			self.world.addActor(f, cell)
 			self.fruit[cell] = f
+		else:
+			self.doIn(2, "replenish", cell)
 
 	#
 	# Called by doIn
 	#
-	def onAction(self, name, args):
+	def onAction(self, name, cell):
 		if name == "replenish":
-			self.spawn(args[0])
+			self.spawn(cell)
