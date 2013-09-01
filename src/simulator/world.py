@@ -2,7 +2,7 @@ import random
 from PyQt4 import QtCore, QtGui
 from src.gfx.grid import Grid
 from src.actors.Human import Human
-from src.actors.Block import Block
+from src.actors.Tree import Tree
 
 class World(QtGui.QFrame):
 	# Should we render the grid?
@@ -31,7 +31,7 @@ class World(QtGui.QFrame):
 		for i in range(50):
 			cell = self.randomCell(True)
 			if cell:
-				self.addActor(Block(), cell)
+				self.addActor(Tree(), cell)
 
 
 	# --------------------------------
