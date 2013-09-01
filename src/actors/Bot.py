@@ -32,7 +32,6 @@ class Bot(Actor):
 	def tick(self, world, tick):
 		# Move first
 		if self.path:
-			self.path.setSource((self.x, self.y))
 			node = self.path.next()
 			if node:
 				self.setPos((node[0], node[1]))
