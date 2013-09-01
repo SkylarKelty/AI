@@ -24,7 +24,6 @@ class Bot(Actor):
 		# Ignore these
 		self.path = None
 		self.direction = (1, 0)
-		self.inSight = {}
 		self.FOVLines = []
 
 	#
@@ -54,8 +53,17 @@ class Bot(Actor):
 				self.moveTo(self.world.randomCell(True))
 
 		# Check LOS
-		self.inSight = {}
-		self.getFOV(world)
+		insight = self.getFOV(world)
+		if insight:
+			for cell in insight:
+				for obj in insight[cell]:
+					self.onSight(cell, obj)
+
+	#
+	# What do we do when we spy something?
+	# 
+	def onSight(self, cell, obj):
+		print "I spy %s at %s" % (obj, cell)
 
 	#
 	# Set a target location that we should move too
@@ -75,6 +83,7 @@ class Bot(Actor):
 		(x1, y1) = (self.trueX(rect, self.x), self.trueY(rect, self.y))
 		angle = self.getRotation()
 
+		sight = {}
 		fovhits = {}
 		for l in range(self.los):
 			(x2, y2) = (x1, (y1 - self.trueY(rect, l)) - (cellHeight / 2)) # Base
@@ -89,9 +98,10 @@ class Bot(Actor):
 				intersection = vec.intersects(world)
 				if intersection:
 					fovhits[i] = intersection
-					self.inSight[(rx, ry)] = intersection
+					sight[(rx, ry)] = intersection
 				else:
 					self.FOVLines.append((x1, y1, rx, ry))
+		return sight
 
 	#
 	# Render our fov
@@ -116,22 +126,18 @@ class Bot(Actor):
 	# Returns our angle
 	# 
 	def getRotation(self):
-		if self.direction == (0, -1):
-			return 0
-		if self.direction == (1, -1):
-			return 45
-		if self.direction == (1, 0):
-			return 90
-		if self.direction == (1, 1):
-			return 135
-		if self.direction == (0, 1):
-			return 180
-		if self.direction == (-1, 1):
-			return 225
-		if self.direction == (-1, 0):
-			return 270
-		if self.direction == (-1, -1):
-			return 315
+		dirmap = {
+			(0, -1): 0,
+			(1, -1): 45,
+			(1, 0): 90,
+			(1, 1): 135,
+			(0, 1): 180,
+			(-1, 1): 225,
+			(-1, 0): 270,
+			(-1, -1): 315
+		}
+		if self.direction in dirmap:
+			return dirmap[self.direction]
 		return 0
 
 	def trueX(self, rect, x):
