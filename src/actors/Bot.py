@@ -150,6 +150,6 @@ class Bot(Actor):
 
 	# Render
 	def render(self, world):
-		if hasattr(self, "FOVLines"):
-			self.renderFOV(world)
+		#if hasattr(self, "FOVLines"):
+		#	self.renderFOV(world)
 		Actor.render(self, world)
