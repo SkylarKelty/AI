@@ -41,7 +41,7 @@ class Path(object):
 		last = self.source
 		while last != self.destination and len(self.path) <= self.world.grid_density:
 			new = self.getBest(last)
-			if new == last or not new:
+			if not new:
 				break
 			self.path.append(new)
 			self.exclusions[new] = True
