@@ -1,23 +1,9 @@
 from PyQt4 import QtGui
 
 class Actor(object):
-
-	# 
-	# A tick - your main entry point to the world.
-	# This should be overridden, and will be called once per (World.tick rate)/second
-	# 
-	def tick(self, world, tick):
-		pass
-
-	# Called when we collide with something
-	def onCollision(self, obj):
-		print "%s collided with %s!" % (self.name, obj.name)
-
-	# -----------------------------------------------------
-	# You shouldnt need to change anything below this line
-	# -----------------------------------------------------
-
+	#
 	# Init
+	# 
 	def __init__(self, name, colour = 0x000000):
 		self.name = name
 		self.setColour(colour)
@@ -32,12 +18,40 @@ class Actor(object):
 		# Does this actor block the LOS of other actors?
 		self.losBlocking = True
 
+		# Our action list
+		self.actions = {}
+
+	#
 	# Setup
+	#
 	def setup(self, world):
 		self.world = world
 		self.grid_density = world.grid_density
 		self.maxdist = world.grid_density - 1
 		self.alive = True
+
+	# 
+	# A tick - your main entry point to the world.
+	# This should be overridden, and will be called once per (World.tick rate)/second
+	# 
+	def tick(self, world, tick):
+		newactions = {}
+		for action in self.actions:
+			lst = self.actions[action]
+			newNum = action - 1
+			if newNum >= 0:
+				newactions[newNum] = lst
+			else:
+				for (name, args) in lst:
+					self.do(name, args)
+		self.actions = newactions
+
+	#
+	# Called when we collide with something
+	# 
+	def onCollision(self, obj):
+		print "%s collided with %s!" % (self.name, obj.name)
+
 
 	# Set our colour
 	def setColour(self, colour):
@@ -103,6 +117,21 @@ class Actor(object):
 		if x < xmin:
 			return xmin
 		return x
+
+	#
+	# Perform an action in (ticks) ticks
+	#
+	def doIn(self, ticks, action, args):
+		if not ticks in self.actions:
+			self.actions[ticks] = []
+		self.actions[ticks].append((action, args))
+
+	#
+	# Perform an action
+	# (Called by doIn)
+	#
+	def do(self, name, args):
+		pass
 
 	# Delete this Actor
 	def kill(self):

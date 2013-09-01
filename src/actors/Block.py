@@ -6,7 +6,7 @@ from Actor import Actor
 class Block(Actor):
 
 	# Init
-	def __init__(self, colour = 0x855D00):
+	def __init__(self, colour = 0x333333):
 		Actor.__init__(self, "A Block", colour)
 		self.ignoreBlocking = True
 	# 
