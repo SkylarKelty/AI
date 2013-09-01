@@ -1,7 +1,7 @@
 import random
 from PyQt4 import QtCore, QtGui
 from src.gfx.grid import Grid
-from src.actors.Bot import Bot
+from src.actors.Human import Human
 from src.actors.Block import Block
 
 class World(QtGui.QFrame):
@@ -23,9 +23,9 @@ class World(QtGui.QFrame):
 	# 
 	def setup(self):
 		# Create an actor
-		barry = Bot("Barry")
-		self.addActor(barry, self.findEmptyCell())
-		barry.moveTo(self.randomCell(True))
+		h = Human()
+		self.addActor(h, self.findEmptyCell())
+		h.moveTo(self.randomCell(True))
 
 		# Create a bunch of blocks
 		for i in range(50):
