@@ -215,6 +215,9 @@ class World(QtGui.QFrame):
 		for o in self.objects:
 			if o and o.alive:
 				newObj.append(o)
+			else:
+				if o in self.cells[(o.x, o.y)]:
+					self.cells[(o.x, o.y)].remove(o)
 		self.objects = newObj
 
 	#
