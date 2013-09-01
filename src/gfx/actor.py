@@ -114,5 +114,5 @@ class Actor(object):
 		self.alive = False
 
 	# Our string
-	def __toString(self):
+	def __str__( self ):
 		return self.name
