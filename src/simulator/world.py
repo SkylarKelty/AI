@@ -38,7 +38,7 @@ class World(QtGui.QFrame):
 				self.addActor(Block(), cell)
 
 		# Create a bunch of Trees
-		for i in range(8):
+		for i in range(18):
 			cell = self.randomCell(True)
 			if cell:
 				self.addActor(Tree(), cell)

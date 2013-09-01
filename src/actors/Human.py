@@ -70,7 +70,6 @@ class Human(Bot):
 		# Search for food if we are hungry
 		if hasattr(obj, "edible") and obj.edible:
 			if not self.movingToFood and self.hunger > 10:
-				print "%s has found food!" % self
 				self.movingToFood = True
 				self.moveTo(cell)
 
