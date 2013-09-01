@@ -36,16 +36,19 @@ class Actor(object):
 	# This should be overridden, and will be called once per (World.tick rate)/second
 	# 
 	def tick(self, world, tick):
-		newactions = {}
+		oldactions = {}
 		for action in self.actions:
-			lst = self.actions[action]
+			oldactions[action] = self.actions[action]
+		
+		self.actions = {}
+		for action in oldactions:
+			lst = oldactions[action]
 			newNum = action - 1
 			if newNum >= 0:
-				newactions[newNum] = lst
+				self.actions[newNum] = lst
 			else:
 				for (name, args) in lst:
 					self.onAction(name, args)
-		self.actions = newactions
 
 	#
 	# Called when we collide with something
