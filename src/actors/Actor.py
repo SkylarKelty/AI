@@ -13,10 +13,9 @@ class Actor(object):
 	def onCollision(self, obj):
 		print "%s collided with %s!" % (self.name, obj.name)
 
-
-	# --------------------------------
+	# -----------------------------------------------------
 	# You shouldnt need to change anything below this line
-	# --------------------------------
+	# -----------------------------------------------------
 
 	# Init
 	def __init__(self, name, colour = 0x000000):
