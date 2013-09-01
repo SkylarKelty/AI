@@ -1,6 +1,6 @@
 import math
 from PyQt4 import QtGui
-from src.gfx.actor import Actor
+from Actor import Actor
 from src.ai.pathfinding import Path
 from src.math.vector import Vector
 

@@ -2,7 +2,7 @@ import random
 from PyQt4 import QtCore, QtGui
 from src.gfx.grid import Grid
 from src.actors.Bot import Bot
-from src.gfx.block import Block
+from src.actors.Block import Block
 
 class World(QtGui.QFrame):
 	# Should we render the grid?

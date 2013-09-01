@@ -1,4 +1,4 @@
-from actor import Actor
+from Actor import Actor
 
 #
 # A simple blocking object
