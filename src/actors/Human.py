@@ -19,7 +19,7 @@ class Human(Bot):
 
 		Bot.__init__(self, namegen.human(self.gender), 0xBA6C49)
 
-		self.doIn(random.randint(50, 120), "die")
+		self.doIn(random.randint(100, 250), "die")
 
 	#
 	# Tick
