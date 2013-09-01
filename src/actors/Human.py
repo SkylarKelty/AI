@@ -23,19 +23,20 @@ class Human(Bot):
 	#
 	def tick(self, world, tick):
 		# Randomly spawn a child, with a 1 in a 100 tick chance
-		if random.randint(0, 100) == 0:
+		# But only if we arent too hungry
+		if self.hunger <= 10 and random.randint(0, 100) == 0:
 			self.spawn(world)
 
 		# Die if we are too hungry
 		if self.hunger == 30:
+			print "%s died of hunger :(" % self
 			return self.kill()
 
 		# Increase hunger every 5 ticks
 		if tick % 5 == 0:
 			self.hunger += 1
-
-		if self.hunger > 10:
-			print "%s is hungry!" % self
+			if self.hunger == 10:
+				print "%s is hungry!" % self
 		
 		Bot.tick(self, world, tick)
 
