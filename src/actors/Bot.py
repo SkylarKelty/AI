@@ -63,7 +63,7 @@ class Bot(Actor):
 	# What do we do when we spy something?
 	# 
 	def onSight(self, cell, obj):
-		print "I spy %s at %s" % (obj, cell)
+		pass
 
 	#
 	# Set a target location that we should move too

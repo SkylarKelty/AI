@@ -63,11 +63,15 @@ class World(QtGui.QFrame):
 	# 
 	def preTick(self, tick):
 		for o in self.objects:
-			self.cells[(o.x, o.y)].remove(o)
-			o.tick(self, tick)
-			if not self.isEmptyCell((o.x, o.y)):
-				self.collide(o)
-			self.cells[(o.x, o.y)].append(o)
+			# Do we exist? If not, its likely we errored out last time
+			if o in self.cells[(o.x, o.y)]:
+				self.cells[(o.x, o.y)].remove(o)
+				o.tick(self, tick)
+				if not self.isEmptyCell((o.x, o.y)):
+					self.collide(o)
+				self.cells[(o.x, o.y)].append(o)
+			else:
+				o.kill()
 
 	#
 	# Is a given cell empty?
