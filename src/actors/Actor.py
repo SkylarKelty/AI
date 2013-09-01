@@ -49,28 +49,14 @@ class Actor(object):
 
 	# Set our position, ensuring its in the grid
 	def setPos(self, (x, y)):
-		e = False
-		if x > self.maxdist:
-			x = self.maxdist
-			e = True
+		constrained_x = self.constrain(x, 0, self.maxdist)
+		constrained_y = self.constrain(y, 0, self.maxdist)
 
-		if x < 0:
-			x = 0
-			e = True
-
-		if y > self.maxdist:
-			y = self.maxdist
-			e = True
-
-		if y < 0:
-			y = 0
-			e = True
-
-		if self.world.isEmptyCell((x, y)) or self.ignoreBlocking:
-			self.x = x
-			self.y = y
-			self.cell = (x, y)
-			return not e
+		if self.world.isEmptyCell((constrained_x, constrained_y)) or self.ignoreBlocking:
+			self.x = constrained_x
+			self.y = constrained_y
+			self.cell = (constrained_x, constrained_y)
+			return not (constrained_x != x or constrained_y != y)
 
 		return False
 
@@ -107,6 +93,16 @@ class Actor(object):
 
 		# Draw
 		painter.fillRect(x + 1, y + 1, sizeX - 2, sizeY - 2, self.colour)
+
+	#
+	# Constrains a number to a min/max
+	# 
+	def constrain(self, x, xmin, xmax):
+		if x > xmax:
+			return xmax
+		if x < xmin:
+			return xmin
+		return x
 
 	# Delete this Actor
 	def kill(self):

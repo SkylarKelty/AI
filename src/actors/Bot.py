@@ -117,16 +117,6 @@ class Bot(Actor):
 			painter.drawLine(x1, y1, rx, ry)
 
 	#
-	# Constrains a number to a min/max
-	# 
-	def constrain(self, x, xmin, xmax):
-		if x > xmax:
-			return xmax
-		if x < xmin:
-			return xmin
-		return x
-
-	#
 	# Returns our angle
 	# 
 	def getRotation(self):
