@@ -23,9 +23,9 @@ class Human(Bot):
 	#
 	def tick(self, world, tick):
 		# Randomly spawn a child, with a 1 in a 100 tick chance
-		# But only if we arent too hungry
-		if self.hunger <= 10 and random.randint(0, 100) == 0:
+		if self.gender == "F" and random.randint(0, 100) == 0:
 			self.spawn(world)
+			print "%s had a baby!" % self
 
 		# Die if we are too hungry
 		if self.hunger == 30:
@@ -68,6 +68,13 @@ class Human(Bot):
 			obj.kill()
 			self.hunger -= obj.hungerValue
 			print "%s ate %s" % (self, obj)
+
+	#
+	# Called by doIn
+	#
+	def onAction(self, name, args):
+		if name == "replenish":
+			self.spawn(args[0])
 
 	#
 	# What do when we finish our path?

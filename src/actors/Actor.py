@@ -44,7 +44,7 @@ class Actor(object):
 				newactions[newNum] = lst
 			else:
 				for (name, args) in lst:
-					self.do(name, args)
+					self.onAction(name, args)
 		self.actions = newactions
 
 	#
@@ -145,7 +145,7 @@ class Actor(object):
 	# Perform an action
 	# (Called by doIn)
 	#
-	def do(self, name, args):
+	def onAction(self, name, args):
 		pass
 
 	# Delete this Actor

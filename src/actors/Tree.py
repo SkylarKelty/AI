@@ -48,6 +48,6 @@ class Tree(Actor):
 	#
 	# Called by doIn
 	#
-	def do(self, name, args):
+	def onAction(self, name, args):
 		if name == "replenish":
 			self.spawn(args[0])

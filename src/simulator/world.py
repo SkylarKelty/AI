@@ -25,10 +25,11 @@ class World(QtGui.QFrame):
 	# Setup - your first entry point to the world.
 	# 
 	def setup(self):
-		# Create an actor
-		h = Human()
-		self.addActor(h, self.findEmptyCell())
-		h.moveTo(self.randomCell(True))
+		# Create 5 humans
+		for i in range(0, 5):
+			h = Human()
+			self.addActor(h, self.randomCell())
+			h.moveTo(self.randomCell(True))
 
 		# Create a bunch of blocks
 		for i in range(15):
@@ -37,7 +38,7 @@ class World(QtGui.QFrame):
 				self.addActor(Block(), cell)
 
 		# Create a bunch of Trees
-		for i in range(7):
+		for i in range(8):
 			cell = self.randomCell(True)
 			if cell:
 				self.addActor(Tree(), cell)
