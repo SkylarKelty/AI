@@ -33,6 +33,9 @@ class Human(Bot):
 		# Increase hunger every 5 ticks
 		if tick % 5 == 0:
 			self.hunger += 1
+
+		if self.hunger > 10:
+			print "%s is hungry!" % self
 		
 		Bot.tick(self, world, tick)
 
@@ -51,7 +54,7 @@ class Human(Bot):
 		# Search for food if we are hungry
 		if hasattr(obj, "edible") and obj.edible:
 			if not self.movingToFood and self.hunger > 10:
-				print "Hungry, moving to food"
+				print "%s has found food!" % self
 				self.movingToFood = True
 				self.moveTo(cell)
 
