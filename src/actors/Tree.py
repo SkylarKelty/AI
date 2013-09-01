@@ -28,7 +28,7 @@ class Tree(Actor):
 
 			# Spawn fruit
 			for cell in self.surroundingCells:
-				self.doIn(random.randint(2, 15), "replenish", [world, cell])
+				self.doIn(random.randint(2, 15), "replenish", [cell])
 
 			self.firstTick = False
 			return
@@ -39,10 +39,10 @@ class Tree(Actor):
 	#
 	# Spawn fruit
 	# 
-	def spawn(self, world, cell):
-		if world.isEmptyCell(cell):
+	def spawn(self, cell):
+		if self.world.isEmptyCell(cell):
 			f = Fruit(self)
-			world.addActor(f, cell)
+			self.world.addActor(f, cell)
 			self.fruit[cell] = f
 
 	#
@@ -50,5 +50,4 @@ class Tree(Actor):
 	#
 	def do(self, name, args):
 		if name == "replenish":
-			(world, cell) = args
-			self.spawn(world, cell)
+			self.spawn(args[0])

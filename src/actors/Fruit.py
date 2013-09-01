@@ -25,4 +25,10 @@ class Fruit(Actor):
 		# Go rotten after 50 ticks
 		if self.lifetime > 50:
 			self.kill()
-			self.tree.doIn(15, "replenish", [world, self.cell])
+
+	#
+	# On kill, respawn
+	#
+	def kill(self):
+		self.tree.doIn(15, "replenish", [self.cell])
+		Actor.kill(self)
