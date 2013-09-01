@@ -33,7 +33,6 @@ class Bot(Actor):
 		# Move first
 		if self.path:
 			self.path.setSource((self.x, self.y))
-			self.path.update()
 			node = self.path.next()
 			if node:
 				self.setPos((node[0], node[1]))
@@ -152,6 +151,6 @@ class Bot(Actor):
 
 	# Render
 	def render(self, world):
-		if hasattr(self, "FOVLines"):
+		if world.debugMode:
 			self.renderFOV(world)
 		Actor.render(self, world)

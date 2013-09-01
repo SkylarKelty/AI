@@ -12,6 +12,8 @@ class World(QtGui.QFrame):
 	grid_density = 50
 	# How often should we tick per second?
 	tick_rate = 10
+	# Are we in debug mode?
+	debugMode = False
 
 	# 
 	# A tick will be called once per (tick rate)/second

@@ -12,7 +12,8 @@ class Path(object):
 		self.maxG = self.world.grid_density - 1
 		self.setSource(src)
 		self.setDestination(dest)
-		self.update()
+		self.exclusions = {}
+		self.last = None
 
 	# Set the starting location of the path
 	def setSource(self, cell):
@@ -24,19 +25,13 @@ class Path(object):
 
 	# Returns the next node on the path
 	def next(self):
-		if self.path:
-			return self.path[0]
-		return None
+		return self.getBest(self.source)
 
 	# Returns the entire path
 	def path(self):
-		return self.path
+		return self.getPath(self.source)
 
-	# Update the path
-	def update(self):
-		self.path = self.getPath(self.source)
-
-	# Find a path from the supplied cell
+	# Find a full path from the supplied cell
 	def getPath(self, src):
 		path = []
 		self.exclusions = {}
@@ -61,7 +56,7 @@ class Path(object):
 		options = self.world.surroundingCells(src)
 		for cell in options:
 			# Ignore this if we are blocked or in exclusions
-			if not self.actor.canCollide(cell) or cell in self.exclusions:
+			if not self.actor.canCollide(cell) or cell in self.exclusions or cell == self.last:
 				options.remove(cell)
 				continue
 
@@ -74,6 +69,9 @@ class Path(object):
 		if not chosen and len(options) > 0:
 			# Go through every cell thats not in the exclusions list
 			chosen = random.choice(options)
+
+		self.exclusions[chosen] = True
+		self.last = chosen
 
 		# Finished!
 		return chosen
