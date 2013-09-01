@@ -14,6 +14,7 @@ class Human(Bot):
 		self.hunger = 0
 		self.tiredness = 0
 		self.gender = random.choice(["F", "M"])
+		self.pregnant = False
 		self.movingToFood = False
 
 		Bot.__init__(self, namegen.human(self.gender), 0xBA6C49)
@@ -24,10 +25,19 @@ class Human(Bot):
 	# Tick
 	#
 	def tick(self, world, tick):
-		# Randomly spawn a child, with a 1 in a 100 tick chance
-		if self.gender == "F" and random.randint(0, 100) == 0:
-			self.doIn(9, "birth")
-			print "%s is pregnant!" % self
+		local_cells = world.surroundingCells(self.cell)
+		local_actors = []
+		for cell in local_cells:
+			local_actors = local_actors + world.cells[cell]
+
+		# If we are female, not pregnant and a male is nearby, become pregnant (because thats totally how this works IRL)
+		if self.gender == "F" and not self.pregnant:
+			for actor in local_actors:
+				if hasattr(actor, "gender") and actor.gender is "M":
+					self.pregnant = True
+					self.doIn(9, "birth")
+					print "%s is pregnant! %s is the father." % (self, actor)
+					break
 
 		# Die if we are too hungry
 		if self.hunger == 30:
@@ -50,6 +60,7 @@ class Human(Bot):
 		self.world.addActor(child, self.world.findEmptyCell())
 		child.moveTo(self.world.randomCell(True))
 		gender_map = {"M": "boy", "F": "girl"}
+		self.pregnant = False
 		print "%s had a baby %s!" % (self, gender_map[child.gender])
 
 	#
